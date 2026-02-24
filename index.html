@@ -1837,6 +1837,12 @@ function generateKneeboard() {
         }
     });
 
+    // 7. Auto-Refresh Duplicate Layout if active
+    const activeLayoutBtn = document.querySelector('.active-layout-btn');
+    if (activeLayoutBtn && activeLayoutBtn.innerText.includes('Duplicate')) {
+        document.getElementById('notes-side').innerHTML = document.getElementById('card-side').innerHTML;
+    }
+
     // 8. Apply Pending Template Layout (if the user loaded one)
     if (window.pendingTemplateLayout) {
         const t = window.pendingTemplateLayout;
