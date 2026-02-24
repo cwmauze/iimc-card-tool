@@ -40,7 +40,7 @@ The tool utilizes a strict, conservative mathematical engine to determine the Mi
 3. **Sector Bearing Verification:** The tool calculates the True Bearing from the centerpoint to each valid peak. It then checks if that bearing falls within the bounds of the user's specific magnetic sector slices (accounting for local magnetic declination).
 4. **Controlling Factor Identification:** Within each sector, the tool competes the highest verified terrain peak (MSL) against the highest verified obstacle (MSL). The absolute highest value becomes the "Controlling Factor."
 5. **Safety Padding:** * A **100-foot pad** is added to the Controlling Factor to account for undocumented vegetation and minor unmapped structural variances (TERPS standard).
-    * A **1,000-foot IFR buffer** is added to the padded elevation to guarantee standard instrument clearance.
+    * A **1,000-foot buffer** is added to the padded elevation to guarantee minimum clearance.
 6. **Altitude Rounding:** The final sum is mathematically rounded up to the next highest 100-foot increment to generate the final MSA.
 
 *Formula: `Final MSA = RoundUp100( Max(Obstacle_MSL, Terrain_MSL) + 100' + 1000' )`*
