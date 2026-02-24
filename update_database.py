@@ -169,11 +169,20 @@ def process_data():
                 for line_bytes in f:
                     line = line_bytes.decode('latin-1', errors='ignore')
                     
-                    # Primary Approach/Departure
-                    if line.startswith("TWR7"):
+                    # Primary Approach/Departure (Separated Logic)
+                    if line.startswith("TWR3"):
                         loc_id = line[4:8].strip()
-                        if loc_id in airports and ("APCH" in line or "DEP" in line):
-                            freq_match = re.search(r'\d{3}\.\d{1,3}', line)
+                        if loc_id in airports:
+                            # TWR3 lines are exclusively Approach/Departure. No keyword needed.
+                            freq_match = re.search(r'1[1-3]\d\.\d{1,3}', line)
+                            if freq_match and airports[loc_id]["primary_freq"] == "None":
+                                airports[loc_id]["primary_freq"] = freq_match.group()
+                                
+                    elif line.startswith("TWR7"):
+                        loc_id = line[4:8].strip()
+                        if loc_id in airports and any(keyword in line for keyword in ["APCH", "DEP", "APP"]):
+                            # TWR7 are remarks. We MUST require keywords to avoid ATIS/Ground.
+                            freq_match = re.search(r'1[1-3]\d\.\d{1,3}', line)
                             if freq_match and airports[loc_id]["primary_freq"] == "None":
                                 airports[loc_id]["primary_freq"] = freq_match.group()
                                 

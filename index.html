@@ -183,6 +183,7 @@
             <strong style="color:var(--primary); font-size:14px;">Version History</strong>
             <span style="cursor:pointer; font-size:18px; opacity:0.7;" onclick="toggleVersionHistory()">✕</span>
         </div>
+        <b>v2.3</b> - Revised frequency search logic to account FAA encoding of larger airports.<br>
         <b>v2.2</b> - Overhauled kneeboard print options and menu.<br>
         <b>v2.1</b> - Minor UI updates.<br>
         <b>v2.0.1</b> - Transitioned to web-based deployment on GitHub.<br>
@@ -195,7 +196,7 @@
     <div class="header-row no-print">
         <div>
             <h2 style="margin: 0; color: var(--primary); line-height: 1; font-size: 22px;">IIMC Card Tool</h2>
-            <span class="version-subtitle" onclick="toggleVersionHistory()">v2.2</span>
+            <span class="version-subtitle" onclick="toggleVersionHistory()">v2.3</span>
             <a href="https://github.com/cwmauze/iimc-card-tool" target="_blank" class="project-link">GitHub project home</a>
             <a href="mailto:cistern_fob3m@icloud.com" class="project-link">Contact / Feedback</a>
         </div>
@@ -640,13 +641,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     } catch (e) { console.warn("metadata.json not found."); }
 
     // Load Databases
-    fetch('airports.json').then(r => r.json()).then(data => {
+    fetch('airports.json?nocache=' + new Date().getTime()).then(r => r.json()).then(data => {
         globalAirports = data;
         let datePart = (globalMeta && globalMeta.apt_date) ? globalMeta.apt_date : "Unknown";
         document.getElementById('apt-status').innerText = "Verified (Eff. " + datePart + " | " + Object.keys(data).length + " airports/heliports found)";
         document.getElementById('apt-dot').className = 'status-dot ready';
     });
-    fetch('obstacles.json').then(r => r.json()).then(data => {
+    fetch('obstacles.json?nocache=' + new Date().getTime()).then(r => r.json()).then(data => {
         globalObstacles = data;
         let datePart = (globalMeta && globalMeta.dof_date) ? globalMeta.dof_date : "Unknown";
         document.getElementById('obs-status').innerText = "Verified (Eff. " + datePart + " | " + data.length + " obstacles)";
