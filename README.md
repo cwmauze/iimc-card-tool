@@ -1,9 +1,9 @@
 # IIMC Card Tool
 
 ## Overview
-The Inadvertent Instrument Meteorological Conditions (IIMC) Card Tool is a static, browser-based web application designed strictly for helicopter pilots. It generates localized Minimum Safe Altitude (MSA) diagrams and dynamic emergency action plans based on user-defined parameters, including centerpoint, action radius, and custom directional sectors.
+The Inadvertent Instrument Meteorological Conditions (IIMC) Card Tool is a pre-flight planning web application designed for pilots. Its primary purpose is to generate localized Minimum Safe Altitude (MSA) diagrams and dynamic emergency action plans based on user-defined parameters, including centerpoint, action radius, and custom directional sectors.
 
-This application runs entirely client-side. Once the initial assets are loaded, the tool functions completely offline, making it reliable for use in the cockpit or in geographic areas with degraded cellular reception. It is designed to produce a highly accurate, printable, or digital kneeboard reference card.
+This application is strictly intended for pre-flight use on the ground. It is designed to produce a highly accurate, printable kneeboard reference card that can be physically stored in the cockpit for immediate, offline access during an IIMC event or other emergency requiring rapid situational awareness.
 
 ---
 
@@ -13,9 +13,8 @@ The core function of this tool is calculating safe altitudes. Therefore, the int
 ### 1. Topographical Terrain Grid (Copernicus DEM GLO-30)
 * **Source:** Copernicus Digital Elevation Model (GLO-30).
 * **Resolution:** 1 arc-second (approximately 30 meters at the equator).
-* **Processing Model:** To optimize for instantaneous, offline performance in the cockpit without sacrificing life-safety margins, the raw 30-meter GeoTIFF tiles are pre-processed into an indexed search grid (`terrain.json`) using a custom build pipeline (`build_terrain.py`, `download_terrain.py`, `validate_terrain.py`). 
+* **Processing Model:** To optimize for instantaneous performance without sacrificing life-safety margins, the raw 30-meter GeoTIFF tiles are pre-processed into an indexed search grid (`terrain.json`) using a custom build pipeline. 
 * **Data Guarantee:** The airspace is divided into a 0.1° x 0.1° coordinate grid. Within every single grid square, the processing script evaluates thousands of individual 30-meter pixels and extracts **only the absolute maximum elevation**. This peak elevation, along with its exact latitude and longitude, is recorded. This strict extraction methodology guarantees that the absolute highest point of terrain in any sector is retained for MSA calculations. There is zero data smoothing, averaging, or interpolation that could artificially lower peak elevations.
-
 
 ### 2. Obstacle Database (FAA DOF)
 * **Source:** Federal Aviation Administration (FAA) Digital Obstacle File (DOF).
@@ -60,13 +59,13 @@ The tool utilizes a strict, conservative mathematical engine to determine the Mi
 
 ### 3. Audit & Preview
 * Review the "Calculation Audit" section to verify the exact coordinates and elevation of the controlling factor for each sector.
-* Click **Preview on Map** to view the magnetic sector boundaries and controlling obstacle/terrain markers overlaid on VFR Sectional, Satellite, or Street maps to visually confirm clearance.
+* Click **Preview on Map** to view the magnetic sector boundaries and controlling obstacle/terrain markers overlaid on VFR Sectional, Satellite, or Street maps to visually confirm clearance prior to printing.
 
 ### 4. Customization & Export
 * Click **Export .PDF** to enter the Kneeboard layout mode.
 * Text boxes and MSA labels can be dragged into ideal positions to prevent visual overlapping.
 * Company logos, scale sliders, and emergency instructions can be customized via the left sidebar.
-* Click **Print Card** to generate the final kneeboard printout, or **Save Template** to download a `.json` file of your custom layout for future use.
+* Click **Print Card** to generate the final physical kneeboard printout to be placed in the aircraft, or **Save Template** to download a `.json` file of your custom layout for future use.
 
 ---
 
