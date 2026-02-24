@@ -1606,26 +1606,17 @@ function generateKneeboard() {
     const expDate = `${d.getDate().toString().padStart(2, '0')} ${months[d.getMonth()]} ${d.getFullYear().toString().slice(-2)}`;
 
     // 3. Determine Field Values
-    let msaVal, freqText, ctrText;
+    let msaVal;
     if (currentCalc.sectors.length > 1) {
         let highest = Math.max(...currentCalc.sectors.map(s => s.finalMSA));
         msaVal = `${highest}' MSL (MAX)`;
-        freqText = "121.5 / 243.0";
-        ctrText = "See diagram for ATC";
     } else {
         msaVal = `${currentCalc.sectors[0].finalMSA}' MSL`;
-        freqText = document.getElementById('out-pri-freq').innerText;
-        ctrText = document.getElementById('out-ctr-name').innerText;
     }
 
-    // 4. Populate Static Header & Freq Boxes
+    // 4. Populate Static Header
     document.getElementById('print-loc-1').innerText = displayLoc;
     document.getElementById('print-exp-1').innerText = expDate;
-    document.getElementById('print-freq-1').innerText = freqText;
-    
-    let formattedCtr = ctrText.toLowerCase().split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('<br>');
-    document.getElementById('print-ctr-1').innerHTML = formattedCtr;
-
     document.querySelector('.print-title').innerHTML = `IIMC Procedure for ${currentCalc.radius} NM radius.<br>MSA Chart oriented to MAG N`;
 
     // 5. Handle Diagram Injection
