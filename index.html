@@ -157,47 +157,82 @@
             .customize-sidebar { display: none !important; }
             .editable-text { outline: none !important; background: transparent !important; }
         }
+
+        /* --- UI Updates: Header, Footer, Modals, Print --- */
+        .version-subtitle { font-size: 11px; color: var(--link); margin-top: 4px; margin-bottom: 20px; display: inline-block; font-weight: normal; cursor: pointer; text-decoration: underline; }
+        .project-link { font-size: 11px; color: #90949c; margin-left: 15px; text-decoration: underline; cursor: pointer; transition: color 0.2s; }
+        .project-link:hover { color: var(--link); }
+        .app-footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: #90949c; line-height: 1.6; text-align: left; }
+        .disclaimer-bold { font-weight: bold; color: var(--text); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); z-index: 5999; }
+        #versionHistory { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--card); border: 2px solid var(--primary); padding: 25px; border-radius: 12px; font-size: 12px; z-index: 6000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto; color: var(--text); line-height: 1.6; }
+        @media print { .no-print { display: none !important; } }
     </style>
 </head>
 <body data-theme="dark">
 
-<div class="container">
-    <div class="header-row">
-        <div>
-            <h2>IIMC Card Tool</h2>
-            <span style="font-size: 10px; color: var(--link);">v1.9.4 - Map Preview</span>
+<div class="modal-overlay no-print" id="historyOverlay" onclick="toggleVersionHistory()">
+    <div id="versionHistory" onclick="event.stopPropagation()">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid var(--border); padding-bottom:10px;">
+            <strong style="color:var(--primary); font-size:14px;">Version History</strong>
+            <span style="cursor:pointer; font-size:18px; opacity:0.7;" onclick="toggleVersionHistory()">✕</span>
         </div>
-        <button class="action-btn" onclick="toggleTheme()" id="themeBtn">☀️</button>
+        <b>v2.1</b> - Minor UI updates.<br>
+        <b>v2.0.1</b> - Transitioned to web-based deployment on GitHub.<br>
+        <b>v1.9.5</b> - Updated terrain model to Copernicus GLO-30. Added usage instructions and pre-flight disclaimers.<br>
+        <b>v1.9.4</b> - Added Map Preview functionality.<br>
+    </div>
+</div>
+
+<div class="container">
+    <div class="header-row no-print">
+        <div>
+            <h2 style="margin: 0; color: var(--primary); line-height: 1; font-size: 22px;">IIMC Card Tool</h2>
+            <span class="version-subtitle" onclick="toggleVersionHistory()">v2.1</span>
+            <a href="https://github.com/cwmauze/iimc-card-tool" target="_blank" class="project-link">GitHub project home</a>
+            <a href="mailto:cistern_fob3m@icloud.com" class="project-link">Contact / Feedback</a>
+        </div>
+        <button class="action-btn" onclick="toggleTheme()" id="themeBtn" style="font-size: 16px; padding: 6px 10px; height: auto;">☀️</button>
     </div>
 
-    <div class="session-status-card">
-        <div style="font-weight: bold; color: var(--primary); text-transform: uppercase; font-size: 10px;">Database Status</div>
-        <div class="status-line">
-            <span>Airport/heliport data (NASR):</span>
-            <div style="display:flex; align-items:center; gap:8px;">
-                <span id="apt-status">Checking...</span>
-                <div class="status-dot loading" id="apt-dot"></div>
-            </div>
+    <div class="grid-2 no-print" style="margin-bottom: 20px; align-items: stretch;">
+        <div style="font-size: 13px; color: #90949c; line-height: 1.5; border-left: 2px solid var(--border); padding-left: 15px; display: flex; flex-direction: column; justify-content: center;">
+            <strong style="color: var(--text); margin-bottom: 4px;">Pre-Flight Data Prep:</strong>
+            <div>1. <strong>Define Location:</strong> Enter an FAA Identifier or precise Lat/Lon and set the action radius.</div>
+            <div>2. <strong>Configure Sectors:</strong> Use a standard 360° ring or toggle custom magnetic sectors.</div>
+            <div>3. <strong>Audit & Preview:</strong> Verify controlling obstacles/terrain (Copernicus 30m) and preview on the map.</div>
+            <div>4. <strong>Export:</strong> Export to .PDF to arrange and print your kneeboard card.</div>
         </div>
-        <div class="status-line">
-            <span>Obstacle data (DOF):</span>
-            <div style="display:flex; align-items:center; gap:8px;">
-                <span id="obs-status">Checking...</span>
-                <div class="status-dot loading" id="obs-dot"></div>
+
+        <div class="session-status-card" style="margin-bottom: 0;">
+            <div style="font-weight: bold; color: var(--primary); text-transform: uppercase; font-size: 10px;">Database Status</div>
+            <div class="status-line">
+                <span>Airport/heliport data (NASR):</span>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <span id="apt-status">Checking...</span>
+                    <div class="status-dot loading" id="apt-dot"></div>
+                </div>
             </div>
-        </div>
-        <div class="status-line">
-            <span>Topographical Terrain (Copernicus 30m):</span>
-            <div style="display:flex; align-items:center; gap:8px;">
-                <span id="usgs-status">Checking...</span>
-                <div class="status-dot loading" id="usgs-dot"></div>
+            <div class="status-line">
+                <span>Obstacle data (DOF):</span>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <span id="obs-status">Checking...</span>
+                    <div class="status-dot loading" id="obs-dot"></div>
+                </div>
             </div>
-        </div>
-        <div class="status-line">
-            <span>Magnetic Model (WMM):</span>
-            <div style="display:flex; align-items:center; gap:8px;">
-                <span id="mag-status">Checking...</span>
-                <div class="status-dot loading" id="mag-dot"></div>
+            <div class="status-line">
+                <span>Topographical Terrain (Copernicus 30m):</span>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <span id="usgs-status">Checking...</span>
+                    <div class="status-dot loading" id="usgs-dot"></div>
+                </div>
+            </div>
+            <div class="status-line">
+                <span>Magnetic Model (WMM):</span>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <span id="mag-status">Checking...</span>
+                    <div class="status-dot loading" id="mag-dot"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -306,7 +341,7 @@
                 
                 <button class="export-btn btn-pdf" onclick="generateKneeboard()">
                     <svg class="export-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                    <span class="export-title">Export .PDF</span>
+                    <span class="export-title">Generate kneeboard</span>
                     <span class="export-sub">IIMC CARD</span>
                 </button>
 
@@ -408,6 +443,10 @@
             </div>
         </div>
     </div>
+    
+    <footer class="app-footer no-print">
+        <span class="disclaimer-bold">DISCLAIMER:</span> This tool is strictly designed to assist pilots in pre-flight planning and the development of local IIMC procedures. The pilot in command remains solely responsible for verifying all altitudes, frequencies, and headings against current, official flight information publications prior to flight.
+    </footer>
 </div>
 
 <div id="mapOverlay">
@@ -483,6 +522,10 @@
                 <option value="https://placehold.co/400x120/ffffff/0f9d58?text=CUSTOM+OPERATOR&font=montserrat">Custom Operator</option>
             </select>
         </div>
+
+        <div class="no-print" style="font-size: 10px; color: #90949c; border: 1px solid var(--border); padding: 10px; border-radius: 6px; margin-top: 15px; background: rgba(0,0,0,0.2); line-height: 1.4;">
+            <strong style="color: var(--text);">DISCLAIMER:</strong> This tool is strictly designed to assist pilots in pre-flight planning and the development of local IIMC procedures. The pilot in command remains solely responsible for verifying all altitudes, frequencies, and headings against current, official flight information publications prior to flight.
+        </div>
         
         <div style="margin-top: auto; display: flex; flex-direction: column; gap: 8px;">
             <button class="btn-sidebar" style="margin-top: 0; background: var(--primary); color: white; border: none;" onclick="saveTemplate()">Save Template</button>
@@ -547,6 +590,14 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
 
 <script>
+function toggleVersionHistory() {
+    const overlay = document.getElementById('historyOverlay');
+    const box = document.getElementById('versionHistory');
+    const isShowing = overlay.style.display === 'block'; 
+    overlay.style.display = isShowing ? 'none' : 'block'; 
+    box.style.display = isShowing ? 'none' : 'block';
+}
+
 let globalAirports = null;
 let globalObstacles = null;
 let globalMeta = null;
@@ -2158,7 +2209,7 @@ async function loadTemplate(event) {
             await calculateIIMC();
             
             // 6. Alert the user
-            alert("Setup loaded successfully! The MSAs and frequencies have been recalculated for this location.\n\nPlease verify the data on your screen, then click 'Export .PDF' to view your saved layout.");
+            alert("Setup loaded successfully! The MSAs and frequencies have been recalculated for this location based on current data.\n\nPlease verify the data on your screen, then click 'Generate kneeboard' to view your saved layout.");
 
         } catch (err) {
             alert("Error loading template file.");
