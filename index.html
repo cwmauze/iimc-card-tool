@@ -183,6 +183,7 @@
             <strong style="color:var(--primary); font-size:14px;">Version History</strong>
             <span style="cursor:pointer; font-size:18px; opacity:0.7;" onclick="toggleVersionHistory()">✕</span>
         </div>
+        <b>v2.4.3</b> - Added user input data validation logic.<br>
         <b>v2.4.2</b> - Fixed antimeridian wrapping bug (Aleutian Islands / Dateline Fix).<br>
         <b>v2.4.1</b> - Fixed expiration date on kneeboard card to correctly reflect next AIRAC cycle.<br>
         <b>v2.4</b> - Major update - integrated new terrain engine using NumPY array to ensure correct resolution of highest points.<br>
@@ -199,7 +200,7 @@
     <div class="header-row no-print">
         <div>
             <h2 style="margin: 0; color: var(--primary); line-height: 1; font-size: 22px;">IIMC Card Tool</h2>
-            <span class="version-subtitle" onclick="toggleVersionHistory()">v2.4.2</span>
+            <span class="version-subtitle" onclick="toggleVersionHistory()">v2.4.3</span>
             <a href="https://github.com/cwmauze/iimc-card-tool" target="_blank" class="project-link">GitHub project home</a>
             <a href="mailto:cistern_fob3m@icloud.com" class="project-link">Contact / Feedback</a>
         </div>
@@ -781,6 +782,9 @@ function updateFacilityName() {
         if (isNaN(clat) || isNaN(clon)) {
             helperDiv.innerText = "Accepts decimal or DMS";
             helperDiv.style.color = "var(--link)";
+        } else if (clat < -90 || clat > 90 || clon < -180 || clon > 180) {
+            helperDiv.innerText = "OUT OF BOUNDS: Lat [-90, 90], Lon [-180, 180]";
+            helperDiv.style.color = "var(--danger)";
         } else {
             helperDiv.innerText = `Valid coords: ${clat.toFixed(4)}, ${clon.toFixed(4)}`;
             helperDiv.style.color = "var(--success)";
@@ -902,19 +906,45 @@ async function calculateIIMC() {
     const mode = document.querySelector('input[name="centerMode"]:checked').value;
     const sectorMode = document.querySelector('input[name="sectorMode"]');
     const isCustomSectors = sectorMode ? document.querySelector('input[name="sectorMode"]:checked').value === 'custom' : false;
-    const radius = parseFloat(document.getElementById('radius').value);
-    if(isNaN(radius)) return;
+    // RED CELL FIX 1: Radius RAM Exhaustion Check
+    let radius = parseFloat(document.getElementById('radius').value);
+    if(isNaN(radius) || radius < 1) radius = 1;
+    if(radius > 150) radius = 150; // Hard cap to prevent browser memory crashes
+    
+    // Update the UI if we auto-clamped the value
+    if (document.getElementById('radius').value != radius) document.getElementById('radius').value = radius;
 
     let centerTarget = null;
+    let isInvalid = false;
+
     if (mode === 'faa') {
         let id = document.getElementById('centerpoint').value.toUpperCase().trim();
-        centerTarget = globalAirports[id] || ((id.length === 4 && id.startsWith('K')) ? globalAirports[id.substring(1)] : undefined);
-        if(!centerTarget) return;
+        if (id.length > 0) {
+            centerTarget = globalAirports[id] || ((id.length === 4 && id.startsWith('K')) ? globalAirports[id.substring(1)] : undefined);
+            if(!centerTarget) isInvalid = true;
+        } else {
+            return; // Empty input, wait for user to type
+        }
     } else {
         let clat = parseCoordinate(document.getElementById('latInput').value);
         let clon = parseCoordinate(document.getElementById('lonInput').value);
-        if (isNaN(clat) || isNaN(clon)) return;
-        centerTarget = { lat: clat, lon: clon, primary_freq: "None", center_freq: "None", name: "Custom Coordinates", center_id: "" };
+        if (isNaN(clat) || isNaN(clon) || clat < -90 || clat > 90 || clon < -180 || clon > 180) {
+            isInvalid = true;
+        } else {
+            centerTarget = { lat: clat, lon: clon, primary_freq: "None", center_freq: "None", name: "Custom Coordinates", center_id: "" };
+        }
+    }
+
+    // RED CELL FIX 2: The "Ghost Card" Prevention
+    if (isInvalid) {
+        document.getElementById('out-msa').innerText = "--";
+        document.getElementById('out-pri-freq').innerText = "--";
+        document.getElementById('out-pri-name').innerText = "INVALID LOCATION";
+        document.getElementById('out-ctr-freq').innerText = "--";
+        document.getElementById('out-ctr-name').innerText = "";
+        document.getElementById('audit-container').innerHTML = '<div class="audit-sector-card"><div class="audit-text" style="color: var(--danger); font-weight: bold;">ERROR: Invalid Location Parameters. Fix inputs to calculate MSA.</div></div>';
+        currentCalc = null; // Lock out the Map Preview & PDF Print to prevent stale data usage
+        return;
     }
 
     document.getElementById('out-msa').innerText = "SEARCHING...";
