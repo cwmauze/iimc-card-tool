@@ -29,8 +29,8 @@
         .header-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); padding-bottom: 15px; margin-bottom: 20px; }
         h2 { margin: 0; color: var(--primary); font-size: 20px; }
         
-        .session-status-card { background: var(--secondary); padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 9.5px; margin-bottom: 20px; }
-        .status-line { margin-top: 4px; display: flex; justify-content: space-between; align-items: center; }
+        .session-status-card { background: var(--secondary); padding: 12px 15px; border-radius: 8px; border: 1px solid var(--border); font-size: 11px; margin-bottom: 20px; }
+        .status-line { margin-top: 6px; display: flex; justify-content: space-between; align-items: center; }
         .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #555; display: inline-block; flex-shrink: 0; }
         .status-dot.ready { background: var(--success); }
         .status-dot.loading { background: var(--dispatch); animation: dbPulse 1s infinite; }
@@ -44,7 +44,6 @@
 
         label { display: block; font-weight: bold; color: var(--text); font-size: 12px; margin-bottom: 6px; }
         input[type="number"], input[type="text"] { width: 100%; padding: 12px; background: var(--input-bg); color: var(--text); border: 1px solid var(--border); border-radius: 6px; box-sizing: border-box; font-size: 15px; font-weight: bold; -webkit-appearance: none; }
-        input[type="number"]:focus, input[type="text"]:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(71, 141, 245, 0.25); transition: all 0.2s ease; }
         
         .btn-group { margin-top: 25px; }
         button.action { width: 100%; padding: 16px; background-color: var(--success); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; }
@@ -55,10 +54,7 @@
         .output-value.msa-val { color: var(--danger); }
         .output-value.freq-val { color: var(--success); }
 
-        .audit-text { font-size: 11px; color: #c4c8d0; margin-bottom: 8px; font-family: monospace; line-height: 1.4; }
-        .audit-sector-card { border-left: 3px solid var(--primary); padding-left: 10px; }
-        .audit-grid.multi { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .audit-grid.multi .audit-sector-card { margin-bottom: 0 !important; border-bottom: none !important; padding-bottom: 0 !important; }
+        .audit-text { font-size: 11px; color: #a0a4ac; margin-bottom: 8px; font-family: monospace; line-height: 1.4; }
         .audit-highlight { color: var(--text); font-weight: bold; }
         .action-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px; border-radius: 6px; cursor: pointer; }
 
@@ -94,13 +90,11 @@
         .print-page, .print-notes { display: flex; flex-direction: column; width: 5.5in; height: 8.5in; box-sizing: border-box; padding: 0.25in; overflow: hidden; }
         .print-notes { border-left: 1px dashed #ccc; background: white; }
         
-        .print-header { display: flex; justify-content: space-between; align-items: stretch; margin-bottom: 0; gap: 0; }
-        .print-logo-box, .print-title-box, .print-meta-box { border: 2px solid black; border-bottom: none; padding: 4px; display: flex; flex-direction: column; justify-content: center; box-sizing: border-box; }
-        .print-logo-box { width: 18%; text-align: center; border-right: none; }
-        .print-title-box { width: 52%; text-align: center; font-weight: bold; container-type: inline-size; display: flex; flex-direction: column; justify-content: center; }
-        .print-title { font-size: calc(1.5cqi + 11px); line-height: 1.2; width: 100%; }
-        .print-meta-box { width: 30%; font-weight: bold; container-type: inline-size; display: flex; flex-direction: column; justify-content: center; text-align: center; border-left: none; }
-        .print-meta { font-size: calc(2cqi + 7.5px); line-height: 1.2; }
+        .print-header { display: flex; justify-content: space-between; align-items: stretch; margin-bottom: 8px; gap: 6px; }
+        .print-logo-box, .print-title-box, .print-meta-box { border: 2px solid black; padding: 4px; display: flex; flex-direction: column; justify-content: center; box-sizing: border-box; }
+        .print-logo-box { width: 18%; text-align: center; }
+        .print-title-box { width: 52%; text-align: center; font-weight: bold; font-size: 11px; }
+        .print-meta-box { width: 30%; font-size: 10px; font-weight: bold; }
         
         .print-body { border: 3px solid black; display: flex; flex-direction: column; flex: 1; box-sizing: border-box; overflow: hidden; }
         
@@ -114,12 +108,12 @@
         
         .active-layout-btn { background: var(--primary) !important; color: white !important; border-color: var(--primary) !important; }
         
-        .print-instructions-section { border-top: 3px solid #000; padding: 8px 10px; font-size: 10.5px; line-height: 1.2; box-sizing: border-box; }
-        .print-avoid { margin-bottom: 6px; font-size: 9.5px; }
-        .print-section-title { font-weight: bold; font-size: 11px; margin-bottom: 2px; }
-        .print-recover ul { margin: 0; padding-left: 16px; list-style-type: disc; }
-        .print-recover li { margin-bottom: 1px; padding-left: 2px; }
-        .print-note { font-weight: normal; margin: 4px 0; font-size: 10.5px; }
+        .print-instructions-section { border-top: 3px solid #1a237e; padding: 10px; font-size: 10px; line-height: 1.2; box-sizing: border-box; }
+        .print-avoid { margin-bottom: 8px; font-size: 9px; }
+        .print-section-title { font-weight: bold; font-size: 11px; margin-bottom: 3px; }
+        .print-recover ul { margin: 0; padding-left: 15px; list-style-type: disc; }
+        .print-recover li { margin-bottom: 2px; padding-left: 3px; }
+        .print-note { font-weight: normal; margin: 6px 0; font-size: 10px; }
 
         .notes-header { font-weight: bold; font-size: 14px; margin-bottom: 10px; text-align: center; text-transform: uppercase; border-bottom: 2px solid black; padding-bottom: 5px; }
         .notes-textarea { flex: 1; width: 100%; border: none; resize: none; font-family: inherit; font-size: 12px; line-height: 1.5; outline: none; background: transparent; }
@@ -136,10 +130,10 @@
         /* --- ACTUAL PRINT SPOOLER STYLES --- */
         @media print {
             @page { size: letter landscape; margin: 0; }
-            body { background: white !important; margin: 0 !important; padding: 0 !important; width: 11in !important; height: 8.5in !important; overflow: hidden !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; text-rendering: optimizeLegibility; }
+            body { background: white !important; margin: 0 !important; padding: 0 !important; width: 11in !important; height: 8.5in !important; overflow: hidden !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             .container, #mapOverlay, .customize-sidebar, .modal-overlay, .app-footer, .header-row { display: none !important; }
             #print-container { display: block !important; width: 11in !important; height: 8.5in !important; margin: 0 !important; padding: 0 !important; }
-            .print-landscape-sheet { width: 11in !important; height: 8.5in !important; max-width: 100vw !important; max-height: 100vh !important; margin: 0 !important; padding: 0 !important; box-shadow: none !important; border-radius: 0 !important; page-break-after: avoid; page-break-inside: avoid; }
+            .print-landscape-sheet { width: 11in !important; height: 8.5in !important; margin: 0 !important; padding: 0 !important; box-shadow: none !important; border-radius: 0 !important; page-break-after: avoid; page-break-inside: avoid; }
             .print-notes { border-left: 1px dashed transparent !important; }
         }
 
@@ -185,12 +179,10 @@
 
 <div class="modal-overlay no-print" id="historyOverlay" onclick="toggleVersionHistory()">
     <div id="versionHistory" onclick="event.stopPropagation()">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid var(--border); padding-bottom:10px; position: sticky; top: -25px; background: var(--card); z-index: 10; margin-top: -25px; padding-top: 25px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid var(--border); padding-bottom:10px;">
             <strong style="color:var(--primary); font-size:14px;">Version History</strong>
             <span style="cursor:pointer; font-size:18px; opacity:0.7;" onclick="toggleVersionHistory()">✕</span>
         </div>
-        <b>v2.4.4</b> - Fixed kneeboard expiration date to align with 56-day DOF.<br>
-        <b>v2.4.4</b> - Fixed timezone issue with kneeboard AIRAC date.<br>
         <b>v2.4.3</b> - Added user input data validation logic.<br>
         <b>v2.4.2</b> - Fixed antimeridian wrapping bug (Aleutian Islands / Dateline Fix).<br>
         <b>v2.4.1</b> - Fixed expiration date on kneeboard card to correctly reflect next AIRAC cycle.<br>
@@ -208,7 +200,7 @@
     <div class="header-row no-print">
         <div>
             <h2 style="margin: 0; color: var(--primary); line-height: 1; font-size: 22px;">IIMC Card Tool</h2>
-            <span class="version-subtitle" onclick="toggleVersionHistory()">v2.4.5</span>
+            <span class="version-subtitle" onclick="toggleVersionHistory()">v2.4.3</span>
             <a href="https://github.com/cwmauze/iimc-card-tool" target="_blank" class="project-link">GitHub project home</a>
             <a href="mailto:cistern_fob3m@icloud.com" class="project-link">Contact / Feedback</a>
         </div>
@@ -259,10 +251,9 @@
 
     <style>
         .container { max-width: 1200px !important; transition: max-width 0.3s ease-in-out; }
-        .export-toolbar { display: flex; align-items: flex-start; gap: 10px; flex: 1; justify-content: flex-end; align-self: flex-start; margin-top: 24px; }
-        .export-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 12px; border-radius: 6px; border: none; color: white; cursor: pointer; text-align: center; transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.2s; min-width: 110px; font-family: inherit; }
-        .export-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.3); opacity: 0.95; }
-        .export-btn:active { transform: translateY(0); box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        .export-toolbar { display: flex; align-items: stretch; gap: 10px; flex: 1; justify-content: flex-end; }
+        .export-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 12px; border-radius: 6px; border: none; color: white; cursor: pointer; text-align: center; transition: opacity 0.2s; min-width: 110px; font-family: inherit; }
+        .export-btn:hover { opacity: 0.85; }
         .export-icon { margin-bottom: 4px; }
         .export-title { font-size: 12px; font-weight: bold; margin-bottom: 2px; }
         .export-sub { font-size: 8px; text-transform: uppercase; opacity: 0.9; }
@@ -424,25 +415,22 @@
             }
         </script>
 
-        <div id="sectorUI" style="display: none; margin-bottom: 15px;">
-            <div style="display: flex; gap: 30px; align-items: flex-start; justify-content: center; flex-wrap: wrap;">
-                <div class="wheel-container" style="flex: 1; min-width: 300px; max-width: 450px; text-align: center;">
-                    <svg class="wheel-svg" viewBox="-135 -135 270 270" style="width: 100%; height: auto; overflow: visible;" id="sector-wheel">
-                        <circle cx="0" cy="0" r="100" fill="rgba(255,255,255,0)" stroke="var(--border)" stroke-width="2" />
-                        <circle cx="0" cy="0" r="6" class="wheel-center" fill="var(--text)" />
-                    </svg>
-                </div>
-                <div id="sector-data-stack" style="flex: 1; min-width: 250px; max-width: 300px; display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
-                    </div>
+        <div id="sectorUI" style="display: none;">
+            <div class="wheel-container" style="text-align: center; margin-bottom: 15px;">
+                <svg class="wheel-svg" viewBox="-135 -135 270 270" style="width: 100%; max-width: 700px; height: auto; overflow: visible;" id="sector-wheel">
+                    <circle cx="0" cy="0" r="100" fill="rgba(255,255,255,0)" stroke="var(--border)" stroke-width="2" />
+                    <circle cx="0" cy="0" r="6" class="wheel-center" fill="var(--text)" />
+                </svg>
             </div>
         </div>
+    </div>
 
     <div class="section-card" id="audit-section" style="background: rgba(0,0,0,0.25);">
         <div class="section-title">2. Calculation Audit</div>
         <div id="audit-container" class="audit-grid">
             <div class="audit-sector-card" id="audit-single">
-                <div class="audit-text" id="audit-terr">Highest terrain: --</div>
-                <div class="audit-text" id="audit-obs">Highest obstacle: --</div>
+                <div class="audit-text" id="audit-terr">Highest Terrain: --</div>
+                <div class="audit-text" id="audit-obs">Highest Obstacle: --</div>
                 <div class="audit-text" style="margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px;" id="audit-math">Formula: --</div>
             </div>
         </div>
@@ -451,8 +439,8 @@
     <div class="section-card" id="output-section">
         <div class="section-title">3. Emergency Action Plan</div>
         <div style="display: flex; gap: 15px; align-items: stretch; flex-wrap: wrap;">
-            <div class="output-block" style="flex: 1.5; margin-bottom: 0; border: 2px solid var(--danger); background: rgba(251, 97, 97, 0.05);">
-                <div class="output-label" style="color: var(--danger);">Minimum Safe Altitude (MSA)</div>
+            <div class="output-block" style="flex: 1; margin-bottom: 0;">
+                <div class="output-label">Minimum Safe Altitude (MSA)</div>
                 <div class="output-value msa-val" id="out-msa">--</div>
             </div>
             <div class="output-block" style="flex: 1; margin-bottom: 0;">
@@ -580,7 +568,7 @@
                     <img id="print-logo-img" src="https://www.metrohealth.org/globalassets/metrohealth-images/life-flight/metro-aviation-logo.jpg" style="max-width: 100%; max-height: 45px; object-fit: contain; display: block; margin: 0 auto;">
                 </div>
                 <div class="print-title-box">
-                    <div class="print-title">IIMC procedure for 30 NM radius.<br>MSA chart oriented to MAG N</div>
+                    <div class="print-title">IIMC Procedure for 30 NM radius.<br>MSA Chart oriented to MAG N</div>
                 </div>
                 <div class="print-meta-box">
                     <div class="print-meta">Location: <span id="print-loc-1">---</span><br><span style="color: #40a0c6; text-decoration: underline;">Expires: <span id="print-exp-1">---</span></span></div>
@@ -617,7 +605,7 @@
                         <ul>
                             <li>Climb to the Minimum Safe Altitude</li>
                             <li>De-goggle when safely able (if applicable)</li>
-                            <li>Contact appropriate ATC, or on Guard (121.5) and <b>DECLARE AN EMERGENCY.</b></li>
+                            <li>Contact appropriate ATC, or on Guard (121.5) and <b>Declare an Emergency</b></li>
                             <li>Set transponder to squawk "7700"</li>
                             <li>Request vectors to VFR conditions or if no VFR, request IFR clearance to nearest appropriate landing facility with an approach.</li>
                             <li>Brief other personnel on board of situation (if applicable)</li>
@@ -660,29 +648,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     fetch('airports.json?nocache=' + new Date().getTime()).then(r => r.json()).then(data => {
         globalAirports = data;
         let datePart = (globalMeta && globalMeta.apt_date) ? globalMeta.apt_date : "Unknown";
-        
-        // Dynamically calculate the 4-digit AIRAC cycle (e.g., 2602)
-        let cycleLabel = "";
-        if (datePart !== "Unknown") {
-            const parts = datePart.split('/');
-            if (parts.length === 3) {
-                // Parse the MM/DD/YY string into a strict UTC Date
-                const dbDate = new Date(Date.UTC(2000 + parseInt(parts[2]), parseInt(parts[0]) - 1, parseInt(parts[1])));
-                const baseAirac = new Date(Date.UTC(2026, 0, 22)); // Known Cycle 2601
-                
-                const diffDays = Math.floor((dbDate - baseAirac) / (1000 * 60 * 60 * 24));
-                
-                // Divide by 28 days, modulo 13 to reset every year, + 1 for 1-based indexing
-                let cycleNum = (Math.floor(diffDays / 28) % 13) + 1;
-                if (cycleNum <= 0) cycleNum += 13; // Failsafe for edge cases
-                
-                const yy = parts[2];
-                const nn = cycleNum.toString().padStart(2, '0');
-                cycleLabel = `AIRAC ${yy}${nn} | `;
-            }
-        }
-        
-        document.getElementById('apt-status').innerText = "Verified (" + cycleLabel + "Eff. " + datePart + " | " + Object.keys(data).length + " airports/heliports found)";
+        document.getElementById('apt-status').innerText = "Verified (Eff. " + datePart + " | " + Object.keys(data).length + " airports/heliports found)";
         document.getElementById('apt-dot').className = 'status-dot ready';
     });
     fetch('obstacles.json?nocache=' + new Date().getTime()).then(r => r.json()).then(data => {
@@ -696,7 +662,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
         .then(data => {
             globalTerrain = data;
-            document.getElementById('usgs-status').innerText = "Verified (Offline Copernicus 30m grid)";
+            document.getElementById('usgs-status').innerText = "Verified (Offline Copernicus 30m Grid)";
             document.getElementById('usgs-status').style.color = "var(--text)";
             document.getElementById('usgs-dot').className = 'status-dot ready';
             triggerLiveUpdate(); 
@@ -1090,7 +1056,7 @@ async function calculateIIMC() {
         if (activeSectors.length > 1) cardHTML += `<div class="audit-sector-title">Sector ${idx+1} (${r.sector.label}) - MSA ${finalMSA}'</div>`;
         cardHTML += `<div class="audit-text">Highest Terrain: <span class="audit-highlight">${Math.round(terr.msl)}' MSL</span> (Lat ${terr.lat.toFixed(4)}, Lon ${terr.lon.toFixed(4)})</div>`;
         cardHTML += `<div class="audit-text">${r.maxObs.msl > 0 ? `Highest Obstacle: <span class="audit-highlight">${r.maxObs.msl}' MSL</span> (Lat ${r.maxObs.lat.toFixed(4)}, Lon ${r.maxObs.lon.toFixed(4)})` : `Highest Obstacle: <span class="audit-highlight">None Found</span>`}</div>`;
-        cardHTML += `<div class="audit-text" style="margin-top: 10px;">Controlling factor: <span class="audit-highlight">${isObs ? "Obstacle" : "Terrain"} (${Math.round(rawPeak)}')</span> + 100' TERPS pad + 1000' buffer &rarr; <span class="audit-highlight">MSA ${finalMSA}'</span></div>`;
+        cardHTML += `<div class="audit-text" style="margin-top: 10px;">Controlling Factor: <span class="audit-highlight">${isObs ? "Obstacle" : "Terrain"} (${Math.round(rawPeak)}')</span> + 100' TERPS pad + 1000' buffer &rarr; <span class="audit-highlight">MSA ${finalMSA}'</span></div>`;
         cardHTML += `</div>`;
         auditContainer.innerHTML += cardHTML;
     });
@@ -1118,21 +1084,17 @@ async function calculateIIMC() {
         sectors: results 
     };
 
-    // NEW: Draw Post-Calculation Halo Labels on the SVG & Populate Data Stack
+    // NEW: Draw Post-Calculation Halo Labels on the SVG
     const svg = document.getElementById('sector-wheel');
-    const dataStack = document.getElementById('sector-data-stack');
-    
-    if (dataStack) dataStack.innerHTML = ''; // Clear old stack data
-
     if (svg) {
         // Clear old labels to prevent stacking
         svg.querySelectorAll('.halo-label').forEach(el => el.remove());
         
         if (activeSectors.length > 1) {
-            results.forEach((r, idx) => {
+            results.forEach(r => {
                 let midAngle = r.sector.start + ((r.sector.end < r.sector.start ? r.sector.end + 360 : r.sector.end) - r.sector.start) / 2;
                 
-                // 1. INNER MSA LABEL (Kept on the wheel)
+                // 1. INNER MSA LABEL
                 let msaRad = 68; 
                 let mX = msaRad * Math.sin(midAngle * Math.PI / 180);
                 let mY = -msaRad * Math.cos(midAngle * Math.PI / 180);
@@ -1150,28 +1112,77 @@ async function calculateIIMC() {
                 msaText.textContent = `MSA ${r.finalMSA}'`;
                 svg.appendChild(msaText);
 
-                // 2. NATIVE HTML INFO CARD (Injected into the side stack)
+                // 2. OUTER FACILITY HALO (BOXED & STACKED)
+                let haloRad = 105; // Anchored just outside the 100px rim
+                let tX = haloRad * Math.sin(midAngle * Math.PI / 180);
+                let tY = -haloRad * Math.cos(midAngle * Math.PI / 180);
+                
                 let appName = r.bestPri ? r.bestPri.name.toUpperCase() : "NONE";
                 let appFreq = r.bestPri && r.bestPri.primary_freq !== "None" ? r.bestPri.primary_freq : "N/A";
                 let ctrName = r.bestCtr ? (artccMap[r.bestCtr.center_id] || r.bestCtr.center_id).toUpperCase() + " CTR" : "NONE CTR";
                 let ctrFreq = r.bestCtr && r.bestCtr.center_freq !== "None" ? r.bestCtr.center_freq : "N/A";
 
-                let cardHtml = `
-                    <div style="background: var(--input-bg); border: 1px solid var(--border); border-radius: 6px; padding: 10px; font-size: 11px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                        <div style="font-weight: bold; color: var(--primary); margin-bottom: 6px; border-bottom: 1px solid var(--border); padding-bottom: 4px;">
-                            Sector ${idx + 1} (${r.sector.label})
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
-                            <span style="font-weight: bold; color: var(--text);">${appName}</span>
-                            <span style="color: var(--success); font-family: monospace; font-weight: bold;">${appFreq}</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between;">
-                            <span style="font-weight: bold; color: #a0a4ac;">${ctrName}</span>
-                            <span style="color: #a0a4ac; font-family: monospace;">${ctrFreq}</span>
-                        </div>
-                    </div>
-                `;
-            	if (dataStack) dataStack.innerHTML += cardHtml;
+                let lines = [
+                    { text: appName, fill: 'var(--text, #fff)', weight: 'bold' },
+                    { text: `APP: ${appFreq}`, fill: 'var(--text, #fff)', weight: 'normal' },
+                    { text: ctrName, fill: 'var(--text, #ccc)', weight: 'bold' },
+                    { text: ctrFreq, fill: 'var(--text, #ccc)', weight: 'normal' }
+                ];
+
+                // Dynamically size the box width based on the longest string
+                let maxChars = Math.max(...lines.map(l => l.text.length));
+                let boxW = Math.max(75, maxChars * 4.2); // Prevents short names from getting squished
+                let boxH = 34;
+
+                // Smart anchor offset: pushes the box outward dynamically based on quadrant
+                // so it neatly flanks the wheel instead of overlapping it
+                let offsetX = (midAngle > 45 && midAngle < 135) ? boxW/2 : ((midAngle > 225 && midAngle < 315) ? -boxW/2 : 0);
+                let offsetY = (midAngle <= 45 || midAngle >= 315) ? -boxH/2 : ((midAngle >= 135 && midAngle <= 225) ? boxH/2 : 0);
+
+                let cX = tX + offsetX;
+                let cY = tY + offsetY;
+
+                // Draw the Box Background
+                const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                rect.setAttribute('x', cX - boxW/2);
+                rect.setAttribute('y', cY - boxH/2);
+                rect.setAttribute('width', boxW);
+                rect.setAttribute('height', boxH);
+                rect.setAttribute('rx', '4'); // Rounded corners
+                rect.setAttribute('class', 'halo-label dynamic-wheel-elem');
+                rect.style.fill = 'var(--card, #242526)';
+                rect.style.stroke = 'var(--border, #3e4042)';
+                rect.style.strokeWidth = '1';
+
+                const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                g.setAttribute('class', 'halo-label dynamic-wheel-elem');
+                
+                const textNode = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                textNode.setAttribute('text-anchor', 'middle');
+                textNode.style.fontFamily = 'sans-serif';
+                textNode.style.fontSize = '6px'; 
+                textNode.style.pointerEvents = 'none'; 
+
+                let lineH = 7.5; 
+                let startY = cY - (3 * lineH / 2) + 0.5; // Perfectly center text in the new box
+
+                lines.forEach((lineObj, i) => {
+                    const ts = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
+                    ts.setAttribute('x', cX);
+                    if (i === 0) {
+                        ts.setAttribute('y', startY);
+                    } else {
+                        ts.setAttribute('dy', lineH);
+                    }
+                    ts.style.fill = lineObj.fill;
+                    ts.style.fontWeight = lineObj.weight;
+                    ts.textContent = lineObj.text;
+                    textNode.appendChild(ts);
+                });
+
+                svg.appendChild(rect);
+                g.appendChild(textNode);
+                svg.appendChild(g);
             });
         }
     }
@@ -1628,17 +1639,16 @@ function generateKneeboard() {
     let displayLoc = centerMode === 'faa' ? document.getElementById('centerpoint').value.toUpperCase() : document.getElementById('customLabel').value.toUpperCase();
     if (!displayLoc) displayLoc = "LOCAL";
 
-    // 2. Calculate Expiration (Synced to 56-day FAA DOF Cycle)
-    const baseDof = new Date(Date.UTC(2024, 2, 21)); // Known 56-day FAA Epoch (March 21, 2024)
+    // 2. Calculate Expiration (Synced to strict FAA AIRAC Cycle)
+    const baseAirac = new Date(Date.UTC(2026, 0, 22)); // Known FAA Epoch (Jan 22, 2026)
     const now = new Date();
-    const diffDays = Math.floor((now - baseDof) / (1000 * 60 * 60 * 24));
-    const cyclesPassed = Math.floor(diffDays / 56);
+    const diffDays = Math.floor((now - baseAirac) / (1000 * 60 * 60 * 24));
+    const cyclesPassed = Math.floor(diffDays / 28);
     
-    // Expiration is the start date of the NEXT 56-day cycle
-    const d = new Date(baseDof.getTime() + ((cyclesPassed + 1) * 56 * 24 * 60 * 60 * 1000));
+    // Expiration is the start date of the NEXT 28-day cycle
+    const d = new Date(baseAirac.getTime() + ((cyclesPassed + 1) * 28 * 24 * 60 * 60 * 1000));
     const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-    // Force UTC extraction to prevent local timezone shifts (e.g., EST pushing midnight UTC back a day)
-    const expDate = `${d.getUTCDate().toString().padStart(2, '0')} ${months[d.getUTCMonth()]} ${d.getUTCFullYear().toString().slice(-2)}`;
+    const expDate = `${d.getDate().toString().padStart(2, '0')} ${months[d.getMonth()]} ${d.getFullYear().toString().slice(-2)}`;
 
     // 3. Determine Field Values
     let msaVal;
@@ -1652,7 +1662,7 @@ function generateKneeboard() {
     // 4. Populate Static Header
     document.getElementById('print-loc-1').innerText = displayLoc;
     document.getElementById('print-exp-1').innerText = expDate;
-    document.querySelector('.print-title').innerHTML = `IIMC procedure for ${currentCalc.radius} NM radius.<br>MSA chart oriented to MAG N`;
+    document.querySelector('.print-title').innerHTML = `IIMC Procedure for ${currentCalc.radius} NM radius.<br>MSA Chart oriented to MAG N`;
 
     // 5. Handle Diagram Injection
     const wheelContainer = document.getElementById('print-wheel-1');
@@ -2180,14 +2190,6 @@ document.addEventListener('pointermove', (e) => {
     let newX = cursorPt.x - dragCtx.offsetX;
     let newY = cursorPt.y - dragCtx.offsetY;
     
-    // RED CELL FIX: Hard bounding box clamping to prevent elements dropping off the kneeboard
-    let vb = dragCtx.svg.viewBox.baseVal;
-    let w = parseFloat(dragCtx.target.getAttribute('width')) || 0;
-    let h = parseFloat(dragCtx.target.getAttribute('height')) || 0;
-    
-    newX = Math.max(vb.x, Math.min(newX, vb.x + vb.width - w));
-    newY = Math.max(vb.y, Math.min(newY, vb.y + vb.height - h));
-
     dragCtx.target.setAttribute('x', newX);
     dragCtx.target.setAttribute('y', newY);
 
