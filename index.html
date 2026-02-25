@@ -183,7 +183,7 @@
 
 <div class="modal-overlay no-print" id="historyOverlay" onclick="toggleVersionHistory()">
     <div id="versionHistory" onclick="event.stopPropagation()">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid var(--border); padding-bottom:10px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid var(--border); padding-bottom:10px; position: sticky; top: -25px; background: var(--card); z-index: 10; margin-top: -25px; padding-top: 25px;">
             <strong style="color:var(--primary); font-size:14px;">Version History</strong>
             <span style="cursor:pointer; font-size:18px; opacity:0.7;" onclick="toggleVersionHistory()">✕</span>
         </div>
@@ -257,7 +257,7 @@
 
     <style>
         .container { max-width: 1200px !important; transition: max-width 0.3s ease-in-out; }
-        .export-toolbar { display: flex; align-items: stretch; gap: 10px; flex: 1; justify-content: flex-end; }
+        .export-toolbar { display: flex; align-items: stretch; gap: 10px; flex: 1; justify-content: flex-end; align-self: center; }
         .export-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 12px; border-radius: 6px; border: none; color: white; cursor: pointer; text-align: center; transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.2s; min-width: 110px; font-family: inherit; }
         .export-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.3); opacity: 0.95; }
         .export-btn:active { transform: translateY(0); box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
@@ -612,7 +612,7 @@
                         <ul>
                             <li>Climb to the Minimum Safe Altitude</li>
                             <li>De-goggle when safely able (if applicable)</li>
-                            <li>Contact appropriate ATC, or on Guard (121.5) and <b>Declare an Emergency</b></li>
+                            <li>Contact appropriate ATC, or on Guard (121.5) and <b>DECLARE AN EMERGENCY.</b></li>
                             <li>Set transponder to squawk "7700"</li>
                             <li>Request vectors to VFR conditions or if no VFR, request IFR clearance to nearest appropriate landing facility with an approach.</li>
                             <li>Brief other personnel on board of situation (if applicable)</li>
