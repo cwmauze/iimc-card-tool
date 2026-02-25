@@ -259,7 +259,7 @@
 
     <style>
         .container { max-width: 1200px !important; transition: max-width 0.3s ease-in-out; }
-        .export-toolbar { display: flex; align-items: stretch; gap: 10px; flex: 1; justify-content: flex-end; align-self: center; }
+        .export-toolbar { display: flex; align-items: stretch; gap: 10px; flex: 1; justify-content: flex-end; margin-top: 22px; }
         .export-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 12px; border-radius: 6px; border: none; color: white; cursor: pointer; text-align: center; transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.2s; min-width: 110px; font-family: inherit; }
         .export-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.3); opacity: 0.95; }
         .export-btn:active { transform: translateY(0); box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
@@ -1144,7 +1144,7 @@ async function calculateIIMC() {
                 svg.appendChild(msaText);
 
                 // 2. OUTER FACILITY HALO (BOXED & STACKED)
-                let haloRad = 105; // Anchored just outside the 100px rim
+                let haloRad = 145; // Increased to push boxes completely clear of the wheel and sector handles
                 let tX = haloRad * Math.sin(midAngle * Math.PI / 180);
                 let tY = -haloRad * Math.cos(midAngle * Math.PI / 180);
                 
@@ -1162,13 +1162,12 @@ async function calculateIIMC() {
 
                 // Dynamically size the box width based on the longest string
                 let maxChars = Math.max(...lines.map(l => l.text.length));
-                let boxW = Math.max(75, maxChars * 4.2); // Prevents short names from getting squished
+                let boxW = Math.max(75, maxChars * 4.4); // slightly wider to ensure text safety
                 let boxH = 34;
 
-                // Smart anchor offset: pushes the box outward dynamically based on quadrant
-                // so it neatly flanks the wheel instead of overlapping it
-                let offsetX = (midAngle > 45 && midAngle < 135) ? boxW/2 : ((midAngle > 225 && midAngle < 315) ? -boxW/2 : 0);
-                let offsetY = (midAngle <= 45 || midAngle >= 315) ? -boxH/2 : ((midAngle >= 135 && midAngle <= 225) ? boxH/2 : 0);
+                // Red Cell UX: Expand offset boundary conditions to ensure corner sectors get pushed diagonally
+                let offsetX = (midAngle > 15 && midAngle < 165) ? boxW/2.1 : ((midAngle > 195 && midAngle < 345) ? -boxW/2.1 : 0);
+                let offsetY = (midAngle > 285 || midAngle < 75) ? -boxH/1.5 : ((midAngle > 105 && midAngle < 255) ? boxH/1.5 : 0);
 
                 let cX = tX + offsetX;
                 let cY = tY + offsetY;
