@@ -183,6 +183,7 @@
             <strong style="color:var(--primary); font-size:14px;">Version History</strong>
             <span style="cursor:pointer; font-size:18px; opacity:0.7;" onclick="toggleVersionHistory()">✕</span>
         </div>
+        <b>v2.4.2</b> - Fixed antimeridian wrapping bug (Aleutian Islands / Dateline Fix).<br>
         <b>v2.4.1</b> - Fixed expiration date on kneeboard card to correctly reflect next AIRAC cycle.<br>
         <b>v2.4</b> - Major update - integrated new terrain engine using NumPY array to ensure correct resolution of highest points.<br>
         <b>v2.3</b> - Revised frequency search logic to account FAA encoding of larger airports.<br>
@@ -198,7 +199,7 @@
     <div class="header-row no-print">
         <div>
             <h2 style="margin: 0; color: var(--primary); line-height: 1; font-size: 22px;">IIMC Card Tool</h2>
-            <span class="version-subtitle" onclick="toggleVersionHistory()">v2.4.1</span>
+            <span class="version-subtitle" onclick="toggleVersionHistory()">v2.4.2</span>
             <a href="https://github.com/cwmauze/iimc-card-tool" target="_blank" class="project-link">GitHub project home</a>
             <a href="mailto:cistern_fob3m@icloud.com" class="project-link">Contact / Feedback</a>
         </div>
@@ -840,7 +841,11 @@ async function getPeakTerrain(lat, lon, radiusNM, sectors) {
         for (let lonInt = startLonInt; lonInt <= endLonInt; lonInt++) {
             
             const currentLat = latInt / 10;
-            const currentLon = lonInt / 10;
+            let currentLon = lonInt / 10;
+            
+            // NEW: Antimeridian Wrapping (Aleutian Islands / Dateline Fix)
+            if (currentLon > 180) currentLon -= 360;
+            if (currentLon < -180) currentLon += 360;
             
             // Format the key to match our terrain.json dictionary (e.g., "39.2_-106.3")
             const key = `${currentLat.toFixed(1)}_${currentLon.toFixed(1)}`;

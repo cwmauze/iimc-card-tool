@@ -190,7 +190,8 @@ def process_data():
                     elif line.startswith("TWR6"):
                         loc_id = line[4:8].strip()
                         if loc_id in airports and ("ARTCC" in line or "Z" in line):
-                            freq_match = re.search(r'\b(?:ON|FREQS)\s+(\d{3}\.\d{1,3})', line)
+                            # Broadened regex to catch any valid civil VHF frequency in the ARTCC remark
+                            freq_match = re.search(r'(1[1-3]\d\.\d{1,3})', line)
                             if freq_match and airports[loc_id]["center_freq"] == "None":
                                 airports[loc_id]["center_freq"] = freq_match.group(1)
 
