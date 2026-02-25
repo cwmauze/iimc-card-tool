@@ -436,8 +436,8 @@
         <div class="section-title">2. Calculation Audit</div>
         <div id="audit-container" class="audit-grid">
             <div class="audit-sector-card" id="audit-single">
-                <div class="audit-text" id="audit-terr">Highest Terrain: --</div>
-                <div class="audit-text" id="audit-obs">Highest Obstacle: --</div>
+                <div class="audit-text" id="audit-terr">Highest terrain: --</div>
+                <div class="audit-text" id="audit-obs">Highest obstacle: --</div>
                 <div class="audit-text" style="margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px;" id="audit-math">Formula: --</div>
             </div>
         </div>
@@ -1085,7 +1085,7 @@ async function calculateIIMC() {
         if (activeSectors.length > 1) cardHTML += `<div class="audit-sector-title">Sector ${idx+1} (${r.sector.label}) - MSA ${finalMSA}'</div>`;
         cardHTML += `<div class="audit-text">Highest Terrain: <span class="audit-highlight">${Math.round(terr.msl)}' MSL</span> (Lat ${terr.lat.toFixed(4)}, Lon ${terr.lon.toFixed(4)})</div>`;
         cardHTML += `<div class="audit-text">${r.maxObs.msl > 0 ? `Highest Obstacle: <span class="audit-highlight">${r.maxObs.msl}' MSL</span> (Lat ${r.maxObs.lat.toFixed(4)}, Lon ${r.maxObs.lon.toFixed(4)})` : `Highest Obstacle: <span class="audit-highlight">None Found</span>`}</div>`;
-        cardHTML += `<div class="audit-text" style="margin-top: 10px;">Controlling Factor: <span class="audit-highlight">${isObs ? "Obstacle" : "Terrain"} (${Math.round(rawPeak)}')</span> + 100' TERPS pad + 1000' buffer &rarr; <span class="audit-highlight">MSA ${finalMSA}'</span></div>`;
+        cardHTML += `<div class="audit-text" style="margin-top: 10px;">Controlling factor: <span class="audit-highlight">${isObs ? "Obstacle" : "Terrain"} (${Math.round(rawPeak)}')</span> + 100' TERPS pad + 1000' buffer &rarr; <span class="audit-highlight">MSA ${finalMSA}'</span></div>`;
         cardHTML += `</div>`;
         auditContainer.innerHTML += cardHTML;
     });
