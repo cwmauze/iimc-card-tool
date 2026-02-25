@@ -183,6 +183,7 @@
             <strong style="color:var(--primary); font-size:14px;">Version History</strong>
             <span style="cursor:pointer; font-size:18px; opacity:0.7;" onclick="toggleVersionHistory()">✕</span>
         </div>
+        <b>v2.4.1</b> - Fixed expiration date on kneeboard card to correctly reflect next AIRAC cycle.<br>
         <b>v2.4</b> - Major update - integrated new terrain engine using NumPY array to ensure correct resolution of highest points.<br>
         <b>v2.3</b> - Revised frequency search logic to account FAA encoding of larger airports.<br>
         <b>v2.2</b> - Overhauled kneeboard print options and menu.<br>
@@ -197,7 +198,7 @@
     <div class="header-row no-print">
         <div>
             <h2 style="margin: 0; color: var(--primary); line-height: 1; font-size: 22px;">IIMC Card Tool</h2>
-            <span class="version-subtitle" onclick="toggleVersionHistory()">v2.4</span>
+            <span class="version-subtitle" onclick="toggleVersionHistory()">v2.4.1</span>
             <a href="https://github.com/cwmauze/iimc-card-tool" target="_blank" class="project-link">GitHub project home</a>
             <a href="mailto:cistern_fob3m@icloud.com" class="project-link">Contact / Feedback</a>
         </div>
@@ -1603,9 +1604,14 @@ function generateKneeboard() {
     let displayLoc = centerMode === 'faa' ? document.getElementById('centerpoint').value.toUpperCase() : document.getElementById('customLabel').value.toUpperCase();
     if (!displayLoc) displayLoc = "LOCAL";
 
-    // 2. Calculate Expiration (Standard 28-day charting cycle)
-    const d = new Date();
-    d.setDate(d.getDate() + 28);
+    // 2. Calculate Expiration (Synced to strict FAA AIRAC Cycle)
+    const baseAirac = new Date(Date.UTC(2026, 0, 22)); // Known FAA Epoch (Jan 22, 2026)
+    const now = new Date();
+    const diffDays = Math.floor((now - baseAirac) / (1000 * 60 * 60 * 24));
+    const cyclesPassed = Math.floor(diffDays / 28);
+    
+    // Expiration is the start date of the NEXT 28-day cycle
+    const d = new Date(baseAirac.getTime() + ((cyclesPassed + 1) * 28 * 24 * 60 * 60 * 1000));
     const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
     const expDate = `${d.getDate().toString().padStart(2, '0')} ${months[d.getMonth()]} ${d.getFullYear().toString().slice(-2)}`;
 
