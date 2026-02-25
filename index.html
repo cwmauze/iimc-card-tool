@@ -424,15 +424,18 @@
             }
         </script>
 
-        <div id="sectorUI" style="display: none;">
-            <div class="wheel-container" style="text-align: center; margin-bottom: 15px;">
-                <svg class="wheel-svg" viewBox="-200 -200 400 400" style="width: 100%; max-width: 700px; height: auto; overflow: visible;" id="sector-wheel">
-                    <circle cx="0" cy="0" r="100" fill="rgba(255,255,255,0)" stroke="var(--border)" stroke-width="2" />
-                    <circle cx="0" cy="0" r="6" class="wheel-center" fill="var(--text)" />
-                </svg>
+        <div id="sectorUI" style="display: none; margin-bottom: 15px;">
+            <div style="display: flex; gap: 30px; align-items: flex-start; justify-content: center; flex-wrap: wrap;">
+                <div class="wheel-container" style="flex: 1; min-width: 300px; max-width: 450px; text-align: center;">
+                    <svg class="wheel-svg" viewBox="-135 -135 270 270" style="width: 100%; height: auto; overflow: visible;" id="sector-wheel">
+                        <circle cx="0" cy="0" r="100" fill="rgba(255,255,255,0)" stroke="var(--border)" stroke-width="2" />
+                        <circle cx="0" cy="0" r="6" class="wheel-center" fill="var(--text)" />
+                    </svg>
+                </div>
+                <div id="sector-data-stack" style="flex: 1; min-width: 250px; max-width: 300px; display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+                    </div>
             </div>
         </div>
-    </div>
 
     <div class="section-card" id="audit-section" style="background: rgba(0,0,0,0.25);">
         <div class="section-title">2. Calculation Audit</div>
@@ -1115,17 +1118,21 @@ async function calculateIIMC() {
         sectors: results 
     };
 
-    // NEW: Draw Post-Calculation Halo Labels on the SVG
+    // NEW: Draw Post-Calculation Halo Labels on the SVG & Populate Data Stack
     const svg = document.getElementById('sector-wheel');
+    const dataStack = document.getElementById('sector-data-stack');
+    
+    if (dataStack) dataStack.innerHTML = ''; // Clear old stack data
+
     if (svg) {
         // Clear old labels to prevent stacking
         svg.querySelectorAll('.halo-label').forEach(el => el.remove());
         
         if (activeSectors.length > 1) {
-            results.forEach(r => {
+            results.forEach((r, idx) => {
                 let midAngle = r.sector.start + ((r.sector.end < r.sector.start ? r.sector.end + 360 : r.sector.end) - r.sector.start) / 2;
                 
-                // 1. INNER MSA LABEL
+                // 1. INNER MSA LABEL (Kept on the wheel)
                 let msaRad = 68; 
                 let mX = msaRad * Math.sin(midAngle * Math.PI / 180);
                 let mY = -msaRad * Math.cos(midAngle * Math.PI / 180);
@@ -1143,96 +1150,31 @@ async function calculateIIMC() {
                 msaText.textContent = `MSA ${r.finalMSA}'`;
                 svg.appendChild(msaText);
 
-                // 2. OUTER FACILITY HALO (BOXED & STACKED)
-                let haloRad = 145; // Increased to push boxes completely clear of the wheel and sector handles
-                let tX = haloRad * Math.sin(midAngle * Math.PI / 180);
-                let tY = -haloRad * Math.cos(midAngle * Math.PI / 180);
-                
+                // 2. NATIVE HTML INFO CARD (Injected into the side stack)
                 let appName = r.bestPri ? r.bestPri.name.toUpperCase() : "NONE";
                 let appFreq = r.bestPri && r.bestPri.primary_freq !== "None" ? r.bestPri.primary_freq : "N/A";
                 let ctrName = r.bestCtr ? (artccMap[r.bestCtr.center_id] || r.bestCtr.center_id).toUpperCase() + " CTR" : "NONE CTR";
                 let ctrFreq = r.bestCtr && r.bestCtr.center_freq !== "None" ? r.bestCtr.center_freq : "N/A";
 
-                let lines = [
-                    { text: appName, fill: 'var(--text, #fff)', weight: 'bold' },
-                    { text: `APP: ${appFreq}`, fill: 'var(--text, #fff)', weight: 'normal' },
-                    { text: ctrName, fill: 'var(--text, #ccc)', weight: 'bold' },
-                    { text: ctrFreq, fill: 'var(--text, #ccc)', weight: 'normal' }
-                ];
-
-                // Dynamically size the box width based on the longest string
-                let maxChars = Math.max(...lines.map(l => l.text.length));
-                let boxW = Math.max(75, maxChars * 4.4); // slightly wider to ensure text safety
-                let boxH = 34;
-
-                // Red Cell UX: Strict Corner Routing to absolutely prevent handle overlap
-                let cX, cY;
-                if (activeSectors.length === 1) {
-                    cX = 0; cY = -150;
-                } else {
-                    let cornerX = (midAngle >= 0 && midAngle < 180) ? 1 : -1;
-                    let cornerY = (midAngle >= 270 || midAngle < 90) ? -1 : 1;
-                    
-                    // Collision detection: Stack boxes if multiple sectors share the same quadrant
-                    let quadBoxes = results.filter(res => {
-                        let m = res.sector.start + ((res.sector.end < res.sector.start ? res.sector.end + 360 : res.sector.end) - res.sector.start) / 2;
-                        let cx_t = (m >= 0 && m < 180) ? 1 : -1;
-                        let cy_t = (m >= 270 || m < 90) ? -1 : 1;
-                        return cx_t === cornerX && cy_t === cornerY;
-                    });
-                    
-                    let stackIdx = quadBoxes.findIndex(res => res.sector.id === r.sector.id);
-                    let yOffset = stackIdx * (boxH + 5); 
-                    
-                    cX = cornerX * 150;
-                    cY = (cornerY * 135) + (cornerY === -1 ? yOffset : -yOffset); // Stack inwards toward the horizontal axis
-                }
-
-                // Draw the Box Background
-                const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-                rect.setAttribute('x', cX - boxW/2);
-                rect.setAttribute('y', cY - boxH/2);
-                rect.setAttribute('width', boxW);
-                rect.setAttribute('height', boxH);
-                rect.setAttribute('rx', '4'); // Rounded corners
-                rect.setAttribute('class', 'halo-label dynamic-wheel-elem');
-                rect.style.fill = 'var(--card, #242526)';
-                rect.style.stroke = 'var(--border, #3e4042)';
-                rect.style.strokeWidth = '1';
-
-                const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-                g.setAttribute('class', 'halo-label dynamic-wheel-elem');
-                
-                const textNode = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                textNode.setAttribute('text-anchor', 'middle');
-                textNode.style.fontFamily = 'sans-serif';
-                textNode.style.fontSize = '6px'; 
-                textNode.style.pointerEvents = 'none'; 
-
-                let lineH = 7.5; 
-                let startY = cY - (3 * lineH / 2) + 0.5; // Perfectly center text in the new box
-
-                lines.forEach((lineObj, i) => {
-                    const ts = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
-                    ts.setAttribute('x', cX);
-                    if (i === 0) {
-                        ts.setAttribute('y', startY);
-                    } else {
-                        ts.setAttribute('dy', lineH);
-                    }
-                    ts.style.fill = lineObj.fill;
-                    ts.style.fontWeight = lineObj.weight;
-                    ts.textContent = lineObj.text;
-                    textNode.appendChild(ts);
-                });
-
-                svg.appendChild(rect);
-                g.appendChild(textNode);
-                svg.appendChild(g);
+                let cardHtml = `
+                    <div style="background: var(--input-bg); border: 1px solid var(--border); border-radius: 6px; padding: 10px; font-size: 11px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <div style="font-weight: bold; color: var(--primary); margin-bottom: 6px; border-bottom: 1px solid var(--border); padding-bottom: 4px;">
+                            Sector ${idx + 1} (${r.sector.label})
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                            <span style="font-weight: bold; color: var(--text);">${appName}</span>
+                            <span style="color: var(--success); font-family: monospace; font-weight: bold;">${appFreq}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="font-weight: bold; color: #a0a4ac;">${ctrName}</span>
+                            <span style="color: #a0a4ac; font-family: monospace;">${ctrFreq}</span>
+                        </div>
+                    </div>
+                `;
+                if (dataStack) dataStack.innerHTML += cardHtml;
             });
         }
     }
-}
 
 function toggleTheme() {
     const isL = document.body.getAttribute('data-theme') === 'light';
