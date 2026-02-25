@@ -29,8 +29,8 @@
         .header-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); padding-bottom: 15px; margin-bottom: 20px; }
         h2 { margin: 0; color: var(--primary); font-size: 20px; }
         
-        .session-status-card { background: var(--secondary); padding: 12px 15px; border-radius: 8px; border: 1px solid var(--border); font-size: 11px; margin-bottom: 20px; }
-        .status-line { margin-top: 6px; display: flex; justify-content: space-between; align-items: center; }
+        .session-status-card { background: var(--secondary); padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 9.5px; margin-bottom: 20px; }
+        .status-line { margin-top: 4px; display: flex; justify-content: space-between; align-items: center; }
         .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #555; display: inline-block; flex-shrink: 0; }
         .status-dot.ready { background: var(--success); }
         .status-dot.loading { background: var(--dispatch); animation: dbPulse 1s infinite; }
@@ -57,6 +57,8 @@
 
         .audit-text { font-size: 11px; color: #c4c8d0; margin-bottom: 8px; font-family: monospace; line-height: 1.4; }
         .audit-sector-card { border-left: 3px solid var(--primary); padding-left: 10px; }
+        .audit-grid.multi { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .audit-grid.multi .audit-sector-card { margin-bottom: 0 !important; border-bottom: none !important; padding-bottom: 0 !important; }
         .audit-highlight { color: var(--text); font-weight: bold; }
         .action-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px; border-radius: 6px; cursor: pointer; }
 
@@ -446,8 +448,8 @@
     <div class="section-card" id="output-section">
         <div class="section-title">3. Emergency Action Plan</div>
         <div style="display: flex; gap: 15px; align-items: stretch; flex-wrap: wrap;">
-            <div class="output-block" style="flex: 1; margin-bottom: 0;">
-                <div class="output-label">Minimum Safe Altitude (MSA)</div>
+            <div class="output-block" style="flex: 1.5; margin-bottom: 0; border: 2px solid var(--danger); background: rgba(251, 97, 97, 0.05);">
+                <div class="output-label" style="color: var(--danger);">Minimum Safe Altitude (MSA)</div>
                 <div class="output-value msa-val" id="out-msa">--</div>
             </div>
             <div class="output-block" style="flex: 1; margin-bottom: 0;">
