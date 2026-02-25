@@ -183,6 +183,7 @@
             <strong style="color:var(--primary); font-size:14px;">Version History</strong>
             <span style="cursor:pointer; font-size:18px; opacity:0.7;" onclick="toggleVersionHistory()">✕</span>
         </div>
+        <b>v2.4.4</b> - Fixed kneeboard expiration date to align with 56-day DOF.<br>
         <b>v2.4.4</b> - Fixed timezone issue with kneeboard AIRAC date.<br>
         <b>v2.4.3</b> - Added user input data validation logic.<br>
         <b>v2.4.2</b> - Fixed antimeridian wrapping bug (Aleutian Islands / Dateline Fix).<br>
@@ -201,7 +202,7 @@
     <div class="header-row no-print">
         <div>
             <h2 style="margin: 0; color: var(--primary); line-height: 1; font-size: 22px;">IIMC Card Tool</h2>
-            <span class="version-subtitle" onclick="toggleVersionHistory()">v2.4.4</span>
+            <span class="version-subtitle" onclick="toggleVersionHistory()">v2.4.5</span>
             <a href="https://github.com/cwmauze/iimc-card-tool" target="_blank" class="project-link">GitHub project home</a>
             <a href="mailto:cistern_fob3m@icloud.com" class="project-link">Contact / Feedback</a>
         </div>
@@ -1662,14 +1663,14 @@ function generateKneeboard() {
     let displayLoc = centerMode === 'faa' ? document.getElementById('centerpoint').value.toUpperCase() : document.getElementById('customLabel').value.toUpperCase();
     if (!displayLoc) displayLoc = "LOCAL";
 
-    // 2. Calculate Expiration (Synced to strict FAA AIRAC Cycle)
-    const baseAirac = new Date(Date.UTC(2026, 0, 22)); // Known FAA Epoch (Jan 22, 2026)
+    // 2. Calculate Expiration (Synced to 56-day FAA DOF Cycle)
+    const baseDof = new Date(Date.UTC(2024, 2, 21)); // Known 56-day FAA Epoch (March 21, 2024)
     const now = new Date();
-    const diffDays = Math.floor((now - baseAirac) / (1000 * 60 * 60 * 24));
-    const cyclesPassed = Math.floor(diffDays / 28);
+    const diffDays = Math.floor((now - baseDof) / (1000 * 60 * 60 * 24));
+    const cyclesPassed = Math.floor(diffDays / 56);
     
-    // Expiration is the start date of the NEXT 28-day cycle
-    const d = new Date(baseAirac.getTime() + ((cyclesPassed + 1) * 28 * 24 * 60 * 60 * 1000));
+    // Expiration is the start date of the NEXT 56-day cycle
+    const d = new Date(baseDof.getTime() + ((cyclesPassed + 1) * 56 * 24 * 60 * 60 * 1000));
     const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
     // Force UTC extraction to prevent local timezone shifts (e.g., EST pushing midnight UTC back a day)
     const expDate = `${d.getUTCDate().toString().padStart(2, '0')} ${months[d.getUTCMonth()]} ${d.getUTCFullYear().toString().slice(-2)}`;
