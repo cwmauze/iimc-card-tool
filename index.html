@@ -95,7 +95,8 @@
         .print-header { display: flex; justify-content: space-between; align-items: stretch; margin-bottom: 8px; gap: 6px; }
         .print-logo-box, .print-title-box, .print-meta-box { border: 2px solid black; padding: 4px; display: flex; flex-direction: column; justify-content: center; box-sizing: border-box; }
         .print-logo-box { width: 18%; text-align: center; }
-        .print-title-box { width: 52%; text-align: center; font-weight: bold; font-size: 11px; }
+        .print-title-box { width: 52%; text-align: center; font-weight: bold; container-type: inline-size; display: flex; flex-direction: column; justify-content: center; }
+        .print-title { font-size: 4.8cqi; line-height: 1.2; width: 100%; }
         .print-meta-box { width: 30%; font-size: 10px; font-weight: bold; }
         
         .print-body { border: 3px solid black; display: flex; flex-direction: column; flex: 1; box-sizing: border-box; overflow: hidden; }
@@ -2218,6 +2219,14 @@ document.addEventListener('pointermove', (e) => {
     let newX = cursorPt.x - dragCtx.offsetX;
     let newY = cursorPt.y - dragCtx.offsetY;
     
+    // RED CELL FIX: Hard bounding box clamping to prevent elements dropping off the kneeboard
+    let vb = dragCtx.svg.viewBox.baseVal;
+    let w = parseFloat(dragCtx.target.getAttribute('width')) || 0;
+    let h = parseFloat(dragCtx.target.getAttribute('height')) || 0;
+    
+    newX = Math.max(vb.x, Math.min(newX, vb.x + vb.width - w));
+    newY = Math.max(vb.y, Math.min(newY, vb.y + vb.height - h));
+
     dragCtx.target.setAttribute('x', newX);
     dragCtx.target.setAttribute('y', newY);
 
