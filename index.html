@@ -259,7 +259,7 @@
 
     <style>
         .container { max-width: 1200px !important; transition: max-width 0.3s ease-in-out; }
-        .export-toolbar { display: flex; align-items: stretch; gap: 10px; flex: 1; justify-content: flex-end; margin-top: 22px; }
+        .export-toolbar { display: flex; align-items: flex-start; gap: 10px; flex: 1; justify-content: flex-end; margin-top: 0 !important; padding-top: 22px; }
         .export-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 12px; border-radius: 6px; border: none; color: white; cursor: pointer; text-align: center; transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.2s; min-width: 110px; font-family: inherit; }
         .export-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.3); opacity: 0.95; }
         .export-btn:active { transform: translateY(0); box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
@@ -426,7 +426,7 @@
 
         <div id="sectorUI" style="display: none;">
             <div class="wheel-container" style="text-align: center; margin-bottom: 15px;">
-                <svg class="wheel-svg" viewBox="-135 -135 270 270" style="width: 100%; max-width: 700px; height: auto; overflow: visible;" id="sector-wheel">
+                <svg class="wheel-svg" viewBox="-200 -200 400 400" style="width: 100%; max-width: 700px; height: auto; overflow: visible;" id="sector-wheel">
                     <circle cx="0" cy="0" r="100" fill="rgba(255,255,255,0)" stroke="var(--border)" stroke-width="2" />
                     <circle cx="0" cy="0" r="6" class="wheel-center" fill="var(--text)" />
                 </svg>
@@ -1165,12 +1165,28 @@ async function calculateIIMC() {
                 let boxW = Math.max(75, maxChars * 4.4); // slightly wider to ensure text safety
                 let boxH = 34;
 
-                // Red Cell UX: Expand offset boundary conditions to ensure corner sectors get pushed diagonally
-                let offsetX = (midAngle > 15 && midAngle < 165) ? boxW/2.1 : ((midAngle > 195 && midAngle < 345) ? -boxW/2.1 : 0);
-                let offsetY = (midAngle > 285 || midAngle < 75) ? -boxH/1.5 : ((midAngle > 105 && midAngle < 255) ? boxH/1.5 : 0);
-
-                let cX = tX + offsetX;
-                let cY = tY + offsetY;
+                // Red Cell UX: Strict Corner Routing to absolutely prevent handle overlap
+                let cX, cY;
+                if (activeSectors.length === 1) {
+                    cX = 0; cY = -150;
+                } else {
+                    let cornerX = (midAngle >= 0 && midAngle < 180) ? 1 : -1;
+                    let cornerY = (midAngle >= 270 || midAngle < 90) ? -1 : 1;
+                    
+                    // Collision detection: Stack boxes if multiple sectors share the same quadrant
+                    let quadBoxes = results.filter(res => {
+                        let m = res.sector.start + ((res.sector.end < res.sector.start ? res.sector.end + 360 : res.sector.end) - res.sector.start) / 2;
+                        let cx_t = (m >= 0 && m < 180) ? 1 : -1;
+                        let cy_t = (m >= 270 || m < 90) ? -1 : 1;
+                        return cx_t === cornerX && cy_t === cornerY;
+                    });
+                    
+                    let stackIdx = quadBoxes.findIndex(res => res.sector.id === r.sector.id);
+                    let yOffset = stackIdx * (boxH + 5); 
+                    
+                    cX = cornerX * 150;
+                    cY = (cornerY * 135) + (cornerY === -1 ? yOffset : -yOffset); // Stack inwards toward the horizontal axis
+                }
 
                 // Draw the Box Background
                 const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
