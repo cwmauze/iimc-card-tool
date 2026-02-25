@@ -97,8 +97,8 @@
         .print-logo-box { width: 18%; text-align: center; }
         .print-title-box { width: 52%; text-align: center; font-weight: bold; container-type: inline-size; display: flex; flex-direction: column; justify-content: center; }
         .print-title { font-size: calc(1.5cqi + 11px); line-height: 1.2; width: 100%; }
-        .print-meta-box { width: 30%; font-weight: bold; container-type: inline-size; display: flex; flex-direction: column; justify-content: center; }
-        .print-meta { font-size: calc(1.5cqi + 8px); line-height: 1.2; }
+        .print-meta-box { width: 30%; font-weight: bold; container-type: inline-size; display: flex; flex-direction: column; justify-content: center; text-align: center; }
+        .print-meta { font-size: calc(3cqi + 10px); line-height: 1.3; }
         
         .print-body { border: 3px solid black; display: flex; flex-direction: column; flex: 1; box-sizing: border-box; overflow: hidden; }
         
@@ -575,7 +575,7 @@
                     <img id="print-logo-img" src="https://www.metrohealth.org/globalassets/metrohealth-images/life-flight/metro-aviation-logo.jpg" style="max-width: 100%; max-height: 45px; object-fit: contain; display: block; margin: 0 auto;">
                 </div>
                 <div class="print-title-box">
-                    <div class="print-title">IIMC Procedure for 30 NM radius.<br>MSA Chart oriented to MAG N</div>
+                    <div class="print-title">IIMC procedure for 30 NM radius.<br>MSA Chart oriented to MAG N</div>
                 </div>
                 <div class="print-meta-box">
                     <div class="print-meta">Location: <span id="print-loc-1">---</span><br><span style="color: #40a0c6; text-decoration: underline;">Expires: <span id="print-exp-1">---</span></span></div>
@@ -1692,7 +1692,7 @@ function generateKneeboard() {
     // 4. Populate Static Header
     document.getElementById('print-loc-1').innerText = displayLoc;
     document.getElementById('print-exp-1').innerText = expDate;
-    document.querySelector('.print-title').innerHTML = `IIMC Procedure for ${currentCalc.radius} NM radius.<br>MSA Chart oriented to MAG N`;
+    document.querySelector('.print-title').innerHTML = `IIMC procedure for ${currentCalc.radius} NM radius.<br>MSA Chart oriented to MAG N`;
 
     // 5. Handle Diagram Injection
     const wheelContainer = document.getElementById('print-wheel-1');
