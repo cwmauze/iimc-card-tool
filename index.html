@@ -56,6 +56,8 @@
 
         .audit-text { font-size: 11px; color: #a0a4ac; margin-bottom: 8px; font-family: monospace; line-height: 1.4; }
         .audit-highlight { color: var(--text); font-weight: bold; }
+        .audit-grid.multi { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; align-items: stretch; }
+        @media (max-width: 600px) { .audit-grid.multi { grid-template-columns: 1fr; } }
         .action-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px; border-radius: 6px; cursor: pointer; }
 
         /* Map UI Additions */
@@ -90,11 +92,13 @@
         .print-page, .print-notes { display: flex; flex-direction: column; width: 5.5in; height: 8.5in; box-sizing: border-box; padding: 0.25in; overflow: hidden; }
         .print-notes { border-left: 1px dashed #ccc; background: white; }
         
-        .print-header { display: flex; justify-content: space-between; align-items: stretch; margin-bottom: 8px; gap: 6px; }
-        .print-logo-box, .print-title-box, .print-meta-box { border: 2px solid black; padding: 4px; display: flex; flex-direction: column; justify-content: center; box-sizing: border-box; }
-        .print-logo-box { width: 18%; text-align: center; }
-        .print-title-box { width: 52%; text-align: center; font-weight: bold; font-size: 11px; }
-        .print-meta-box { width: 30%; font-size: 10px; font-weight: bold; }
+        .print-header { display: flex; justify-content: flex-start; align-items: stretch; height: 55px; margin-bottom: 0; gap: 0; }
+        .print-logo-box, .print-title-box, .print-meta-box { border: 2px solid black; border-bottom: none; padding: 4px; display: flex; flex-direction: column; justify-content: center; box-sizing: border-box; container-type: inline-size; }
+        .print-logo-box { width: 18%; text-align: center; border-right: none; }
+        .print-title-box { width: 52%; text-align: center; font-weight: bold; border-right: none; }
+        .print-title-box .print-title { height: 100%; width: 100%; display: flex; flex-direction: column; justify-content: center; font-size: clamp(12px, 6cqi, 22px); line-height: 1.1; margin: 0; }
+        .print-meta-box { width: 30%; font-weight: bold; }
+        .print-meta-box .print-meta { font-size: 14px; line-height: 1.3; display: block; margin: 0; }
         
         .print-body { border: 3px solid black; display: flex; flex-direction: column; flex: 1; box-sizing: border-box; overflow: hidden; }
         
@@ -108,12 +112,12 @@
         
         .active-layout-btn { background: var(--primary) !important; color: white !important; border-color: var(--primary) !important; }
         
-        .print-instructions-section { border-top: 3px solid #1a237e; padding: 10px; font-size: 10px; line-height: 1.2; box-sizing: border-box; }
-        .print-avoid { margin-bottom: 8px; font-size: 9px; }
-        .print-section-title { font-weight: bold; font-size: 11px; margin-bottom: 3px; }
-        .print-recover ul { margin: 0; padding-left: 15px; list-style-type: disc; }
-        .print-recover li { margin-bottom: 2px; padding-left: 3px; }
-        .print-note { font-weight: normal; margin: 6px 0; font-size: 10px; }
+        .print-instructions-section { border-top: 3px solid #1a237e; padding: 12px; font-size: 12px; line-height: 1.3; box-sizing: border-box; }
+        .print-avoid { margin-bottom: 10px; font-size: 11px; }
+        .print-section-title { font-weight: bold; font-size: 13px; margin-bottom: 5px; }
+        .print-recover ul { margin: 0; padding-left: 18px; list-style-type: disc; }
+        .print-recover li { margin-bottom: 4px; padding-left: 4px; }
+        .print-note { font-weight: normal; margin: 8px 0; font-size: 11px; }
 
         .notes-header { font-weight: bold; font-size: 14px; margin-bottom: 10px; text-align: center; text-transform: uppercase; border-bottom: 2px solid black; padding-bottom: 5px; }
         .notes-textarea { flex: 1; width: 100%; border: none; resize: none; font-family: inherit; font-size: 12px; line-height: 1.5; outline: none; background: transparent; }
@@ -183,6 +187,8 @@
             <strong style="color:var(--primary); font-size:14px;">Version History</strong>
             <span style="cursor:pointer; font-size:18px; opacity:0.7;" onclick="toggleVersionHistory()">✕</span>
         </div>
+        <b>v2.4.4.1</b> - Revised action bar buttons.<br>
+        <b>v2.4.3.1</b> - UI refinements. Fixed kneeboard date to align with DOF/sectional expiry.<br>
         <b>v2.4.3</b> - Added user input data validation logic.<br>
         <b>v2.4.2</b> - Fixed antimeridian wrapping bug (Aleutian Islands / Dateline Fix).<br>
         <b>v2.4.1</b> - Fixed expiration date on kneeboard card to correctly reflect next AIRAC cycle.<br>
@@ -200,7 +206,7 @@
     <div class="header-row no-print">
         <div>
             <h2 style="margin: 0; color: var(--primary); line-height: 1; font-size: 22px;">IIMC Card Tool</h2>
-            <span class="version-subtitle" onclick="toggleVersionHistory()">v2.4.3</span>
+            <span class="version-subtitle" onclick="toggleVersionHistory()">v2.4.4.1</span>
             <a href="https://github.com/cwmauze/iimc-card-tool" target="_blank" class="project-link">GitHub project home</a>
             <a href="mailto:cistern_fob3m@icloud.com" class="project-link">Contact / Feedback</a>
         </div>
@@ -269,7 +275,7 @@
     </style>
 
     <div class="section-card">
-        <div class="section-title">1. Location Parameters</div>
+        <div class="section-title">Location Parameters</div>
         
         <div style="display: flex; gap: 20px; margin-bottom: 12px; flex-wrap: wrap;">
             <label style="display: flex; align-items: center; gap: 5px; font-weight: normal; cursor: pointer; margin: 0;">
@@ -281,6 +287,18 @@
         </div>
 
         <div style="display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; background: var(--section-bg); border: 1px solid var(--border); border-radius: 8px; padding: 15px; margin-bottom: 15px;">
+            
+            <div style="flex: 0 0 auto;">
+                <input type="file" id="template-upload" accept=".json" style="display: none;" onchange="loadTemplate(event)">
+                <button class="export-btn" style="background-color: #546E7A; height: 100%; min-height: 65px; justify-content: center;" onclick="document.getElementById('template-upload').click()">
+                    <svg class="export-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    <span class="export-title">Load Setup</span>
+                    <span class="export-sub">JSON TEMPLATE</span>
+                </button>
+            </div>
+
+            <div style="width: 1px; min-height: 60px; background: var(--border); align-self: stretch;"></div>
+
             <div style="flex: 0 0 auto; min-width: 260px;">
                 <div id="faaWrap">
                     <label>Centerpoint (FAA ID)</label>
@@ -337,14 +355,6 @@
             <div style="width: 1px; min-height: 60px; background: var(--border); align-self: stretch;"></div>
 
             <div class="export-toolbar">
-                <input type="file" id="template-upload" accept=".json" style="display: none;" onchange="loadTemplate(event)">
-                
-                <button class="export-btn" style="background-color: #546E7A;" onclick="document.getElementById('template-upload').click()">
-                    <svg class="export-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                    <span class="export-title">Load Setup</span>
-                    <span class="export-sub">JSON TEMPLATE</span>
-                </button>
-
                 <button class="export-btn btn-map" onclick="showMapPreview()">
                     <svg class="export-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
                     <span class="export-title">Preview on map</span>
@@ -363,6 +373,7 @@
                     <span class="export-sub">ALL DATA</span>
                 </button>
             </div>
+
         </div>
 
         <script>
@@ -388,12 +399,8 @@
                     syncSectors(toggleBtn);
                 }
                 
-                document.getElementById('audit-container').innerHTML = '';
-                document.getElementById('out-msa').innerText = '--';
-                document.getElementById('out-pri-freq').innerText = '--';
-                document.getElementById('out-pri-name').innerText = '';
-                document.getElementById('out-ctr-freq').innerText = '--';
-                document.getElementById('out-ctr-name').innerText = '';
+                document.getElementById('audit-container').innerHTML = '<div class="audit-sector-card" id="audit-single"><div class="audit-text" id="audit-terr">Highest Terrain: --</div><div class="audit-text" id="audit-obs">Highest Obstacle: --</div><div class="audit-text" style="margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px;" id="audit-math">Formula: --</div></div>';
+                document.getElementById('sectorUI').style.display = 'none';
                 
                 // FIX: Reset the MagVar UI status text
                 const magUi = document.getElementById('mag-status');
@@ -404,7 +411,7 @@
                 currentCalc = null;
                 
                 // FIX: Wipe the persistent sector math back to a clean slate
-                wheelSectors = [0, 90, 180, 270];
+                wheelSectors = [0];
                 window.currentSectors = [];
                 draggingHandle = null;
                 
@@ -415,6 +422,11 @@
             }
         </script>
 
+        </div>
+
+    <div class="section-card" id="preview-section">
+        <div class="section-title">Sector Configuration</div>
+        <div id="sector-helper-text" style="display: none; font-size: 11px; font-style: italic; color: #a0a4ac; margin-bottom: 10px; text-align: center;">Drag the handles on the wheel to adjust sector boundaries.</div>
         <div id="sectorUI" style="display: none;">
             <div class="wheel-container" style="text-align: center; margin-bottom: 15px;">
                 <svg class="wheel-svg" viewBox="-135 -135 270 270" style="width: 100%; max-width: 700px; height: auto; overflow: visible;" id="sector-wheel">
@@ -426,7 +438,7 @@
     </div>
 
     <div class="section-card" id="audit-section" style="background: rgba(0,0,0,0.25);">
-        <div class="section-title">2. Calculation Audit</div>
+        <div class="section-title">Calculation Audit</div>
         <div id="audit-container" class="audit-grid">
             <div class="audit-sector-card" id="audit-single">
                 <div class="audit-text" id="audit-terr">Highest Terrain: --</div>
@@ -435,33 +447,16 @@
             </div>
         </div>
     </div>
-
-    <div class="section-card" id="output-section">
-        <div class="section-title">3. Emergency Action Plan</div>
-        <div style="display: flex; gap: 15px; align-items: stretch; flex-wrap: wrap;">
-            <div class="output-block" style="flex: 1; margin-bottom: 0;">
-                <div class="output-label">Minimum Safe Altitude (MSA)</div>
-                <div class="output-value msa-val" id="out-msa">--</div>
-            </div>
-            <div class="output-block" style="flex: 1; margin-bottom: 0;">
-                <div class="output-label">Nearest Approach</div>
-                <div class="output-value freq-val" id="out-pri-freq">--</div>
-                <div id="out-pri-name" style="font-size: 10px; color: var(--link); margin-top: 5px; text-transform: uppercase;"></div>
-            </div>
-            <div class="output-block" style="flex: 1; margin-bottom: 0;">
-                <div class="output-label">Overlying Center</div>
-                <div class="output-value freq-val" id="out-ctr-freq">--</div>
-                <div id="out-ctr-name" style="font-size: 10px; color: var(--link); margin-top: 5px; text-transform: uppercase;"></div>
-            </div>
-        </div>
-    </div>
     
-    <footer class="app-footer no-print">
+    <footer class="app-footer no-print"> no-print">
         <span class="disclaimer-bold">DISCLAIMER:</span> This tool is strictly designed to assist pilots in pre-flight planning and the development of local IIMC procedures. The pilot in command remains solely responsible for verifying all altitudes, frequencies, and headings against current, official flight information publications prior to flight.
     </footer>
 </div>
 
 <div id="mapOverlay">
+    <div id="map-header-badge" style="position: absolute; top: 20px; left: 20px; background: rgba(30, 31, 32, 0.85); border: 1px solid var(--border); padding: 8px 15px; border-radius: 8px; color: var(--text); font-size: 14px; font-weight: bold; z-index: 9999; backdrop-filter: blur(8px); box-shadow: 0 4px 12px rgba(0,0,0,0.5); pointer-events: none;">
+        Preview: ---
+    </div>
     <div class="map-command-bar">
         <div class="cmd-group">
             <div class="layer-switch">
@@ -473,7 +468,10 @@
         </div>
         <div class="cmd-divider"></div>
         <div class="cmd-group" style="margin-left:auto;">
-            <button class="action-btn" onclick="toggleMaximize()">
+            <button class="action-btn" onclick="recenterMap()" title="Recenter Map">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle></svg>
+            </button>
+            <button class="action-btn" onclick="toggleMaximize()" title="Toggle Fullscreen">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg>
             </button>
             <button class="action-btn close-btn" onclick="hideMap()">Close</button>
@@ -491,7 +489,8 @@
             • Changes appear exactly as printed.
         </div>
         
-        <div id="customization-sliders" style="border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 12px;">
+        <div id="customization-sliders" style="background: var(--section-bg); padding: 10px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 12px;">
+            <strong style="font-size: 10px; text-transform: uppercase; color: var(--primary); display: block; margin-bottom: 10px;">1. Adjust Sizing</strong>
             <div style="margin-bottom: 12px;">
                 <label style="font-size: 11px; margin-bottom: 4px; display: block; color: var(--text);">MSA Text Size <span id="val-msa-scale" style="float: right; color: var(--success); font-family: monospace;">1.00x</span></label>
                 <input type="range" id="slider-msa-scale" min="0.5" max="2.0" step="0.05" value="1.0" style="width: 100%; cursor: pointer;">
@@ -510,26 +509,29 @@
             </div>
         </div>
 
-        <div class="sidebar-row" style="color: var(--text);">
-            <span>Company Logo</span>
-            <label class="efb-toggle" style="margin: 0;">
-                <input type="checkbox" id="toggle-logo-btn" onchange="togglePrintLogo()">
-                <span class="efb-slider"></span>
-            </label>
-        </div>
-        
-        <div id="logo-select-wrapper" style="display: none; margin-top: 10px;">
-            <select id="logo-selector" onchange="updateLogoImage()" style="width: 100%; padding: 8px; background: var(--input-bg); color: var(--text); border: 1px solid var(--border); border-radius: 6px; font-size: 12px; cursor: pointer;">
-                <option value="https://www.metrohealth.org/globalassets/metrohealth-images/life-flight/metro-aviation-logo.jpg">Metro Aviation</option>
-                <option value="https://www.globalmedicalresponse.com/img/gmr-logo-web.png">Global Medical Response (GMR)</option>
-                <option value="https://phoenixchildrens.org/sites/default/files/2025-04/airmethods-logo_0.png">Air Methods</option>
-                <option value="https://www.phiairmedical.com/wp-content/uploads/sites/3/2021/07/PHI-Air-Medical_YLW_WHT.png">PHI Air Medical</option>
-                <option value="https://placehold.co/400x120/ffffff/0f9d58?text=CUSTOM+OPERATOR&font=montserrat">Custom Operator</option>
-            </select>
+        <div style="background: var(--section-bg); padding: 10px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 12px;">
+            <strong style="font-size: 10px; text-transform: uppercase; color: var(--primary); display: block; margin-bottom: 10px;">2. Branding</strong>
+            <div class="sidebar-row" style="color: var(--text);">
+                <span style="font-size: 11px; font-weight: normal;">Company Logo</span>
+                <label class="efb-toggle" style="margin: 0;">
+                    <input type="checkbox" id="toggle-logo-btn" onchange="togglePrintLogo()">
+                    <span class="efb-slider"></span>
+                </label>
+            </div>
+            
+            <div id="logo-select-wrapper" style="display: none; margin-top: 10px;">
+                <select id="logo-selector" onchange="updateLogoImage()" style="width: 100%; padding: 8px; background: var(--input-bg); color: var(--text); border: 1px solid var(--border); border-radius: 6px; font-size: 12px; cursor: pointer;">
+                    <option value="https://www.metrohealth.org/globalassets/metrohealth-images/life-flight/metro-aviation-logo.jpg">Metro Aviation</option>
+                    <option value="https://www.globalmedicalresponse.com/img/gmr-logo-web.png">Global Medical Response (GMR)</option>
+                    <option value="https://phoenixchildrens.org/sites/default/files/2025-04/airmethods-logo_0.png">Air Methods</option>
+                    <option value="https://www.phiairmedical.com/wp-content/uploads/sites/3/2021/07/PHI-Air-Medical_YLW_WHT.png">PHI Air Medical</option>
+                    <option value="https://placehold.co/400x120/ffffff/0f9d58?text=CUSTOM+OPERATOR&font=montserrat">Custom Operator</option>
+                </select>
+            </div>
         </div>
 
-        <div style="margin-top: 12px; border-top: 1px solid var(--border); padding-top: 12px;">
-            <strong style="font-size: 11px; color: var(--text); display: block; margin-bottom: 8px;">Right Half Layout:</strong>
+        <div style="background: var(--section-bg); padding: 10px; border-radius: 8px; border: 1px solid var(--border);">
+            <strong style="font-size: 10px; text-transform: uppercase; color: var(--primary); display: block; margin-bottom: 10px;">3. Right Half Layout</strong>
             <div style="display: flex; gap: 8px;" id="layout-btn-group">
                 <button class="btn-sidebar active-layout-btn" style="margin-top: 0; font-size: 10px; padding: 6px;" onclick="setRightLayout('blank', this)">Blank</button>
                 <button class="btn-sidebar" style="margin-top: 0; font-size: 10px; padding: 6px;" onclick="setRightLayout('duplicate', this)">Duplicate</button>
@@ -548,7 +550,7 @@
                 } else if (mode === 'duplicate') {
                     rightSide.innerHTML = document.getElementById('card-side').innerHTML;
                 } else if (mode === 'notes') {
-                    rightSide.innerHTML = '<div class="notes-header">Flight Notes</div><textarea class="notes-textarea" placeholder="Enter free text, frequencies, or flight log details here..."></textarea>';
+                    rightSide.innerHTML = '<div class="notes-header">Flight Notes</div><div class="notes-textarea" contenteditable="true" style="outline: none; min-height: 50%;">Enter free text, frequencies, or flight log details here...</div>';
                 }
             }
         </script>
@@ -568,7 +570,7 @@
                     <img id="print-logo-img" src="https://www.metrohealth.org/globalassets/metrohealth-images/life-flight/metro-aviation-logo.jpg" style="max-width: 100%; max-height: 45px; object-fit: contain; display: block; margin: 0 auto;">
                 </div>
                 <div class="print-title-box">
-                    <div class="print-title">IIMC Procedure for 30 NM radius.<br>MSA Chart oriented to MAG N</div>
+                    <div class="print-title">IIMC procedure for 30 NM radius.<br>MSA Chart oriented to MAG N</div>
                 </div>
                 <div class="print-meta-box">
                     <div class="print-meta">Location: <span id="print-loc-1">---</span><br><span style="color: #40a0c6; text-decoration: underline;">Expires: <span id="print-exp-1">---</span></span></div>
@@ -605,7 +607,7 @@
                         <ul>
                             <li>Climb to the Minimum Safe Altitude</li>
                             <li>De-goggle when safely able (if applicable)</li>
-                            <li>Contact appropriate ATC, or on Guard (121.5) and <b>Declare an Emergency</b></li>
+                            <li>Contact appropriate ATC or use Guard (121.5) and <b>DECLARE AN EMERGENCY</b></li>
                             <li>Set transponder to squawk "7700"</li>
                             <li>Request vectors to VFR conditions or if no VFR, request IFR clearance to nearest appropriate landing facility with an approach.</li>
                             <li>Brief other personnel on board of situation (if applicable)</li>
@@ -710,7 +712,7 @@ function handleLocationChange() {
     if (toggleBtn && toggleBtn.checked) {
         toggleBtn.checked = false;
         syncSectors(toggleBtn);
-        wheelSectors = [0, 90, 180, 270];
+        wheelSectors = [0];
         window.currentSectors = [];
         draggingHandle = null;
     }
@@ -726,13 +728,22 @@ function toggleSectorUI() {
     if (!customToggle) return; // Safety check
     
     const mode = customToggle.checked ? 'custom' : 'single';
-    document.getElementById('sectorUI').style.display = mode === 'custom' ? 'block' : 'none';
     
     // Dynamically unhide the compact Add/Remove button wrapper
     const btnWrapper = document.getElementById('sector-btn-wrapper');
     if (btnWrapper) btnWrapper.style.display = mode === 'custom' ? 'flex' : 'none';
 
-    if (mode === 'custom' && wheelSectors.length === 0) wheelSectors = [0, 90, 180, 270];
+    // Toggle the helper text
+    const helperText = document.getElementById('sector-helper-text');
+    if (helperText) helperText.style.display = mode === 'custom' ? 'block' : 'none';
+
+    // Snap the visual wheel to match the math state
+    if (mode === 'custom') {
+        if (wheelSectors.length <= 1) wheelSectors = [0, 90, 180, 270];
+    } else {
+        wheelSectors = [0]; // Collapse to a single 360° ring without drag handles
+    }
+
     updateWheel();
     
     // Rely on the proven 700ms sequence to ensure the SVG canvas is fully painted before drawing text
@@ -937,17 +948,14 @@ async function calculateIIMC() {
 
     // RED CELL FIX 2: The "Ghost Card" Prevention
     if (isInvalid) {
-        document.getElementById('out-msa').innerText = "--";
-        document.getElementById('out-pri-freq').innerText = "--";
-        document.getElementById('out-pri-name').innerText = "INVALID LOCATION";
-        document.getElementById('out-ctr-freq').innerText = "--";
-        document.getElementById('out-ctr-name').innerText = "";
         document.getElementById('audit-container').innerHTML = '<div class="audit-sector-card"><div class="audit-text" style="color: var(--danger); font-weight: bold;">ERROR: Invalid Location Parameters. Fix inputs to calculate MSA.</div></div>';
+        document.getElementById('sectorUI').style.display = 'none'; // Hide wheel when empty/invalid
         currentCalc = null; // Lock out the Map Preview & PDF Print to prevent stale data usage
         return;
     }
-
-    document.getElementById('out-msa').innerText = "SEARCHING...";
+    
+    // Show the wheel container once we have a valid location
+    document.getElementById('sectorUI').style.display = 'block';
 
     // NEW: Fetch Magnetic Variation and update the Hybrid UI Status
     const magVar = await getMagVar(centerTarget.lat, centerTarget.lon);
@@ -1051,31 +1059,14 @@ async function calculateIIMC() {
         }
 
         // Build Audit Card(s)
-        // Added a bottom border to separate sectors, and removed the confusing top border from the controlling factor line
-        let cardHTML = `<div class="audit-sector-card" style="padding-bottom: 12px; margin-bottom: 12px; border-bottom: ${idx < activeSectors.length - 1 ? '1px solid var(--border)' : 'none'};">`;
-        if (activeSectors.length > 1) cardHTML += `<div class="audit-sector-title">Sector ${idx+1} (${r.sector.label}) - MSA ${finalMSA}'</div>`;
+        let cardHTML = `<div class="audit-sector-card" style="background: var(--input-bg); border: 1px solid var(--border); border-radius: 6px; padding: 12px; height: 100%; box-sizing: border-box;">`;
+        if (activeSectors.length > 1) cardHTML += `<div class="audit-sector-title" style="font-size: 12px; font-weight: bold; color: var(--primary); margin-bottom: 8px; border-bottom: 1px solid var(--border); padding-bottom: 6px;">Sector ${idx+1} (${r.sector.label}) - MSA ${finalMSA}'</div>`;
         cardHTML += `<div class="audit-text">Highest Terrain: <span class="audit-highlight">${Math.round(terr.msl)}' MSL</span> (Lat ${terr.lat.toFixed(4)}, Lon ${terr.lon.toFixed(4)})</div>`;
         cardHTML += `<div class="audit-text">${r.maxObs.msl > 0 ? `Highest Obstacle: <span class="audit-highlight">${r.maxObs.msl}' MSL</span> (Lat ${r.maxObs.lat.toFixed(4)}, Lon ${r.maxObs.lon.toFixed(4)})` : `Highest Obstacle: <span class="audit-highlight">None Found</span>`}</div>`;
         cardHTML += `<div class="audit-text" style="margin-top: 10px;">Controlling Factor: <span class="audit-highlight">${isObs ? "Obstacle" : "Terrain"} (${Math.round(rawPeak)}')</span> + 100' TERPS pad + 1000' buffer &rarr; <span class="audit-highlight">MSA ${finalMSA}'</span></div>`;
         cardHTML += `</div>`;
         auditContainer.innerHTML += cardHTML;
     });
-
-    // Update Section 3 main output block depending on mode
-    if (activeSectors.length === 1) {
-        document.getElementById('out-msa').innerText = highestOverallMSA + " MSL";
-        document.getElementById('out-pri-freq').innerText = highestOverallPri ? (highestOverallPri.primary_freq || "N/A") : "N/A";
-        document.getElementById('out-pri-name').innerText = highestOverallPri ? highestOverallPri.name + " Approach" : "";
-        document.getElementById('out-ctr-freq').innerText = highestOverallCtr ? (highestOverallCtr.center_freq || "N/A") : "N/A";
-        document.getElementById('out-ctr-name').innerText = highestOverallCtr ? (artccMap[highestOverallCtr.center_id] || highestOverallCtr.center_id) + " Center" : "";
-    } else {
-        // NEW: Override Section 3 for Custom Sectors to emphasize GUARD
-        document.getElementById('out-msa').innerHTML = "<span style='font-size: 16px; color: var(--text);'>SEE DIAGRAM</span><br>" + highestOverallMSA + " MAX";
-        document.getElementById('out-pri-freq').innerText = "121.5 / 243.0";
-        document.getElementById('out-pri-name').innerText = "TUNE GUARD (EMERGENCY)";
-        document.getElementById('out-ctr-freq').innerText = "Varies";
-        document.getElementById('out-ctr-name').innerText = "See diagram for local ATC";
-    }
 
     // Save state for Map Preview & Kneeboard Template
     currentCalc = {
@@ -1090,14 +1081,21 @@ async function calculateIIMC() {
         // Clear old labels to prevent stacking
         svg.querySelectorAll('.halo-label').forEach(el => el.remove());
         
-        if (activeSectors.length > 1) {
+        if (activeSectors.length >= 1) {
             results.forEach(r => {
-                let midAngle = r.sector.start + ((r.sector.end < r.sector.start ? r.sector.end + 360 : r.sector.end) - r.sector.start) / 2;
+                // If single sector, lock the labels to the top-right (45°) instead of dead-bottom (180°) for a cleaner look
+                let midAngle = activeSectors.length === 1 ? 45 : r.sector.start + ((r.sector.end < r.sector.start ? r.sector.end + 360 : r.sector.end) - r.sector.start) / 2;
                 
                 // 1. INNER MSA LABEL
-                let msaRad = 68; 
-                let mX = msaRad * Math.sin(midAngle * Math.PI / 180);
-                let mY = -msaRad * Math.cos(midAngle * Math.PI / 180);
+                let mX = 0, mY = 0;
+                if (activeSectors.length === 1) {
+                    mX = 0;
+                    mY = 18; // Centered, tucked neatly under the location ID badge
+                } else {
+                    let msaRad = 68; 
+                    mX = msaRad * Math.sin(midAngle * Math.PI / 180);
+                    mY = -msaRad * Math.cos(midAngle * Math.PI / 180);
+                }
 
                 const msaText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
                 msaText.setAttribute('x', mX);
@@ -1455,9 +1453,8 @@ function removeSectorHandle() {
 
 // Initialize wheel and sync UI state on load
 document.addEventListener('DOMContentLoaded', () => { 
-    const mode = document.querySelector('input[name="sectorMode"]:checked').value;
-    document.getElementById('sectorUI').style.display = mode === 'custom' ? 'block' : 'none';
-    setTimeout(updateWheel, 500); 
+    // Run the toggle logic once to sync the math/visuals to the default 'single' state
+    setTimeout(toggleSectorUI, 500); 
 });
 
 // --- MAP PREVIEW INTEGRATION ---
@@ -1468,6 +1465,15 @@ function showMapPreview() {
     if (!currentCalc || !currentCalc.sectors) {
         alert("Please allow calculations to complete before opening the map.");
         return;
+    }
+
+    const centerMode = document.querySelector('input[name="centerMode"]:checked').value;
+    let displayLoc = centerMode === 'faa' ? document.getElementById('centerpoint').value.toUpperCase() : document.getElementById('customLabel').value.toUpperCase();
+    if (!displayLoc) displayLoc = "LOCAL";
+    
+    const headerBadge = document.getElementById('map-header-badge');
+    if (headerBadge) {
+        headerBadge.innerHTML = `<span style="color: var(--primary);">Preview:</span> ${displayLoc} <span style="opacity: 0.7; font-size: 12px;">(${currentCalc.radius} NM)</span>`;
     }
 
     document.getElementById('mapOverlay').style.display = 'block';
@@ -1618,6 +1624,7 @@ function showMapPreview() {
 
 function hideMap() { document.getElementById('mapOverlay').style.display = 'none'; }
 function toggleMaximize() { document.getElementById('mapOverlay').classList.toggle('maximized'); setTimeout(() => leafletMap.invalidateSize(), 400); }
+function recenterMap() { if (previewLayerGroup && previewLayerGroup.getLayers().length > 0) leafletMap.fitBounds(previewLayerGroup.getBounds(), {padding: [20, 20], maxZoom: 12}); }
 
 function setBaseView(type) {
     if (layers[activeBase]) leafletMap.removeLayer(layers[activeBase]);
@@ -1639,16 +1646,17 @@ function generateKneeboard() {
     let displayLoc = centerMode === 'faa' ? document.getElementById('centerpoint').value.toUpperCase() : document.getElementById('customLabel').value.toUpperCase();
     if (!displayLoc) displayLoc = "LOCAL";
 
-    // 2. Calculate Expiration (Synced to strict FAA AIRAC Cycle)
-    const baseAirac = new Date(Date.UTC(2026, 0, 22)); // Known FAA Epoch (Jan 22, 2026)
+    // 2. Calculate Expiration (Synced to strict 56-day DOF Cycle)
+    const baseAirac = new Date(Date.UTC(2026, 0, 22)); // Known FAA 56-day Epoch (Jan 22, 2026)
     const now = new Date();
     const diffDays = Math.floor((now - baseAirac) / (1000 * 60 * 60 * 24));
-    const cyclesPassed = Math.floor(diffDays / 28);
+    const cyclesPassed = Math.floor(diffDays / 56);
     
-    // Expiration is the start date of the NEXT 28-day cycle
-    const d = new Date(baseAirac.getTime() + ((cyclesPassed + 1) * 28 * 24 * 60 * 60 * 1000));
+    // Expiration is the start date of the NEXT 56-day cycle
+    const d = new Date(baseAirac.getTime() + ((cyclesPassed + 1) * 56 * 24 * 60 * 60 * 1000));
     const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-    const expDate = `${d.getDate().toString().padStart(2, '0')} ${months[d.getMonth()]} ${d.getFullYear().toString().slice(-2)}`;
+    // Use UTC getters to prevent the date from shifting backwards by a day in US timezones
+    const expDate = `${d.getUTCDate().toString().padStart(2, '0')} ${months[d.getUTCMonth()]} ${d.getUTCFullYear().toString().slice(-2)}`;
 
     // 3. Determine Field Values
     let msaVal;
@@ -1662,7 +1670,7 @@ function generateKneeboard() {
     // 4. Populate Static Header
     document.getElementById('print-loc-1').innerText = displayLoc;
     document.getElementById('print-exp-1').innerText = expDate;
-    document.querySelector('.print-title').innerHTML = `IIMC Procedure for ${currentCalc.radius} NM radius.<br>MSA Chart oriented to MAG N`;
+    document.querySelector('.print-title').innerHTML = `IIMC procedure for ${currentCalc.radius} NM radius.<br>MSA chart oriented to MAG N`;
 
     // 5. Handle Diagram Injection
     const wheelContainer = document.getElementById('print-wheel-1');
