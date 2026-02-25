@@ -1172,9 +1172,12 @@ async function calculateIIMC() {
                     </div>
                 `;
                 if (dataStack) dataStack.innerHTML += cardHtml;
-            });
+                });
+            }
         }
     }
+
+    function toggleTheme() {
 
 function toggleTheme() {
     const isL = document.body.getAttribute('data-theme') === 'light';
