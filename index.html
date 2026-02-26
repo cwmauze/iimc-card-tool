@@ -555,18 +555,20 @@
 
         <div style="background: var(--section-bg); padding: 10px; border-radius: 8px; border: 1px solid var(--border);">
             <strong style="font-size: 10px; text-transform: uppercase; color: var(--primary); display: block; margin-bottom: 10px;">3. Right Half Layout</strong>
-            <div style="display: flex; gap: 8px;" id="layout-btn-group">
-                <button class="btn-sidebar active-layout-btn" style="margin-top: 0; font-size: 10px; padding: 6px;" onclick="setRightLayout('blank', this)">Blank</button>
-                <button class="btn-sidebar" style="margin-top: 0; font-size: 10px; padding: 6px;" onclick="setRightLayout('duplicate', this)">Duplicate</button>
-                <button class="btn-sidebar" style="margin-top: 0; font-size: 10px; padding: 6px;" onclick="setRightLayout('notes', this)">Free Text</button>
+            <div class="segmented-control" style="width: 100%; display: flex; box-sizing: border-box;" id="layout-btn-group">
+                <input type="radio" name="rightLayout" id="rl-blank" value="blank" checked onchange="setRightLayout('blank')">
+                <label for="rl-blank" style="flex: 1; text-align: center; font-size: 10px; padding: 6px; margin: 0;">Blank</label>
+                
+                <input type="radio" name="rightLayout" id="rl-duplicate" value="duplicate" onchange="setRightLayout('duplicate')">
+                <label for="rl-duplicate" style="flex: 1; text-align: center; font-size: 10px; padding: 6px; margin: 0;">Duplicate</label>
+                
+                <input type="radio" name="rightLayout" id="rl-notes" value="notes" onchange="setRightLayout('notes')">
+                <label for="rl-notes" style="flex: 1; text-align: center; font-size: 10px; padding: 6px; margin: 0;">Free Text</label>
             </div>
         </div>
         
         <script>
-            function setRightLayout(mode, btn) {
-                document.querySelectorAll('#layout-btn-group .btn-sidebar').forEach(b => b.classList.remove('active-layout-btn'));
-                btn.classList.add('active-layout-btn');
-                
+            function setRightLayout(mode) {
                 const rightSide = document.getElementById('notes-side');
                 if (mode === 'blank') {
                     rightSide.innerHTML = '';
