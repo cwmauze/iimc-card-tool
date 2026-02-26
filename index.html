@@ -1916,8 +1916,8 @@ function generateKneeboard() {
     });
 
     // 7. Auto-Refresh Duplicate Layout if active
-    const activeLayoutBtn = document.querySelector('.active-layout-btn');
-    if (activeLayoutBtn && activeLayoutBtn.innerText.includes('Duplicate')) {
+    const duplicateRadio = document.getElementById('rl-duplicate');
+    if (duplicateRadio && duplicateRadio.checked) {
         document.getElementById('notes-side').innerHTML = document.getElementById('card-side').innerHTML;
     }
 
