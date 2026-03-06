@@ -1088,7 +1088,7 @@ async function calculateIIMC() {
         if (activeSectors.length > 1) cardHTML += `<div class="audit-sector-title" style="font-size: 12px; font-weight: bold; color: var(--primary); margin-bottom: 8px; border-bottom: 1px solid var(--border); padding-bottom: 6px;">Sector ${idx+1} (${r.sector.label}) - MSA ${finalMSA}'</div>`;
         cardHTML += `<div class="audit-text" style="margin-bottom: 6px;">Highest Terrain: <span class="audit-highlight">${Math.round(terr.msl)}' MSL</span><br><span style="font-size: 9px; opacity: 0.6;">Lat ${terr.lat.toFixed(4)}, Lon ${terr.lon.toFixed(4)}</span></div>`;
         cardHTML += `<div class="audit-text" style="margin-bottom: 6px;">${r.maxObs.msl > 0 ? `Highest Obstacle: <span class="audit-highlight">${r.maxObs.msl}' MSL</span><br><span style="font-size: 9px; opacity: 0.6;">Lat ${r.maxObs.lat.toFixed(4)}, Lon ${r.maxObs.lon.toFixed(4)}</span>` : `Highest Obstacle: <span class="audit-highlight">None Found</span>`}</div>`;
-        cardHTML += `<div class="audit-text" style="margin-top: 8px; border-top: 1px dashed var(--border); padding-top: 8px; line-height: 1.5;">Controlling: <span class="audit-highlight">${isObs ? "Obstacle" : "Terrain"} (${Math.round(rawPeak)}')</span><br>+ 100' pad + 1000' buf &rarr; <span class="audit-highlight">MSA ${finalMSA}'</span></div>`;
+        cardHTML += `<div class="audit-text" style="margin-top: 8px; border-top: 1px dashed var(--border); padding-top: 8px; line-height: 1.5;">Controlling: <span class="audit-highlight">${isObs ? "Obstacle" : "Terrain"} (${Math.round(rawPeak)}')</span><br>+ 100' pad + 1000' buffer &rarr; <span class="audit-highlight">MSA ${finalMSA}'</span></div>`;
         cardHTML += `</div>`;
         auditContainer.innerHTML += cardHTML;
     });
