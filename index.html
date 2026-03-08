@@ -212,6 +212,7 @@
             <strong style="color:var(--primary); font-size:14px;">Version History</strong>
             <span style="cursor:pointer; font-size:18px; opacity:0.7;" onclick="toggleVersionHistory()">✕</span>
         </div>
+        <b>v2.5</b> - Added manual frequency changes to save/load with template.<br>
         <b>v2.4.4.7</b> - Made action bar buttons sticky.<br>
         <b>v2.4.4.1</b> - Revised action bar buttons.<br>
         <b>v2.4.3.1</b> - UI refinements. Fixed kneeboard date to align with DOF/sectional expiry.<br>
@@ -232,7 +233,7 @@
     <div class="header-row no-print">
         <div>
             <h2 style="margin: 0; color: var(--primary); line-height: 1; font-size: 22px;">IIMC Card Tool</h2>
-            <span class="version-subtitle" onclick="toggleVersionHistory()">v2.4.4.7</span>
+            <span class="version-subtitle" onclick="toggleVersionHistory()">v2.5</span>
             <a href="https://github.com/cwmauze/iimc-card-tool" target="_blank" class="project-link">GitHub project home</a>
             <a href="mailto:cistern_fob3m@icloud.com" class="project-link">Contact / Feedback</a>
         </div>
@@ -1991,6 +1992,11 @@ function generateKneeboard() {
                     freqBoxes[i].setAttribute('x', pos.x);
                     freqBoxes[i].setAttribute('y', pos.y);
                     
+                    if (pos.html) {
+                        const editable = freqBoxes[i].querySelector('.editable-text');
+                        if (editable) editable.innerHTML = pos.html;
+                    }
+
                     let lineId = freqBoxes[i].getAttribute('data-line');
                     let line = document.getElementById(lineId);
                     if (line) {
@@ -2312,7 +2318,10 @@ function saveTemplate() {
             template.positions.msa.push({ x: box.getAttribute('x'), y: box.getAttribute('y') });
         });
         wheelSvg.querySelectorAll('.freq-box').forEach(box => {
-            template.positions.freq.push({ x: box.getAttribute('x'), y: box.getAttribute('y') });
+            let htmlContent = "";
+            const editable = box.querySelector('.editable-text');
+            if (editable) htmlContent = editable.innerHTML;
+            template.positions.freq.push({ x: box.getAttribute('x'), y: box.getAttribute('y'), html: htmlContent });
         });
     }
 
