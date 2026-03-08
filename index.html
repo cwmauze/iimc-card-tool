@@ -212,6 +212,7 @@
             <strong style="color:var(--primary); font-size:14px;">Version History</strong>
             <span style="cursor:pointer; font-size:18px; opacity:0.7;" onclick="toggleVersionHistory()">✕</span>
         </div>
+        <b>v2.5.1</b> - Added single-sector card scaling options.<br>
         <b>v2.5</b> - Added manual frequency changes to save/load with template.<br>
         <b>v2.4.4.7</b> - Made action bar buttons sticky.<br>
         <b>v2.4.4.1</b> - Revised action bar buttons.<br>
@@ -233,7 +234,7 @@
     <div class="header-row no-print">
         <div>
             <h2 style="margin: 0; color: var(--primary); line-height: 1; font-size: 22px;">IIMC Card Tool</h2>
-            <span class="version-subtitle" onclick="toggleVersionHistory()">v2.5</span>
+            <span class="version-subtitle" onclick="toggleVersionHistory()">v2.5.1</span>
             <a href="https://github.com/cwmauze/iimc-card-tool" target="_blank" class="project-link">GitHub project home</a>
             <a href="mailto:cistern_fob3m@icloud.com" class="project-link">Contact / Feedback</a>
         </div>
@@ -1750,10 +1751,12 @@ function generateKneeboard() {
                     </div>
                 </foreignObject>
 
-                <foreignObject x="-200" y="-80" width="400" height="160" overflow="visible">
-                    <div xmlns="http://www.w3.org/1999/xhtml" style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: transparent;">
-                        <div id="print-center-label-1" class="editable-text" style="font-size: 64px; font-weight: 900; line-height: 1.1; text-align: center; color: #000; cursor: pointer;" contenteditable="false">${displayLoc}</div>
-                        <div class="editable-text" style="font-size: 48px; font-weight: 900; line-height: 1.1; text-align: center; color: #000; white-space: nowrap; cursor: pointer;" contenteditable="false">MSA: <span id="print-msa-1" style="font-size: inherit;">${msaVal}</span></div>
+                <foreignObject class="draggable-box msa-box" x="-200" y="-80" width="400" height="160" overflow="visible">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background: transparent;">
+                        <div class="editable-text" style="box-sizing: border-box; display: inline-flex; flex-direction: column; justify-content: center; font-family: Arial, sans-serif; font-size: 64px; line-height: 1.1; text-align: center; color: #000; padding: 4px; background: transparent; white-space: nowrap; cursor: pointer;" contenteditable="false">
+                            <div id="print-center-label-1" style="font-weight: 900;">${displayLoc}</div>
+                            <div style="font-size: 0.75em; font-weight: 900;">MSA: <span id="print-msa-1" style="font-size: inherit;">${msaVal}</span></div>
+                        </div>
                     </div>
                 </foreignObject>
             </svg>
@@ -1900,7 +1903,14 @@ function generateKneeboard() {
     // Toggle customization sliders based on card type
     const customSliders = document.getElementById('customization-sliders');
     if (customSliders) {
-        customSliders.style.display = currentCalc.sectors.length > 1 ? 'block' : 'none';
+        customSliders.style.display = 'block';
+        const degScaleWrap = document.getElementById('slider-deg-scale').parentElement;
+        const degDistWrap = document.getElementById('slider-degDist-scale').parentElement;
+        if (degScaleWrap && degDistWrap) {
+            const showDeg = currentCalc.sectors.length > 1 ? 'block' : 'none';
+            degScaleWrap.style.display = showDeg;
+            degDistWrap.style.display = showDeg;
+        }
     }
     
     // Toggle multi-sector controls based on card type
@@ -2045,37 +2055,7 @@ const svgResizeObserver = new ResizeObserver(entries => {
 
 // Slider Scaling Engine for SVG Elements
 function applyScale(type, scaleValue) {
-    // --- Handle Single-Sector HTML Elements ---
-    if (window.currentCalc && window.currentCalc.sectors && window.currentCalc.sectors.length === 1) {
-        if (type === 'msa') {
-            const msaContainer = document.querySelector('.print-center-text');
-            if (msaContainer) {
-                // Scale both the ID label and the MSA value proportionally
-                msaContainer.querySelectorAll('div').forEach(el => {
-                    if (!el.hasAttribute('data-base-fs')) {
-                        el.setAttribute('data-base-fs', parseFloat(window.getComputedStyle(el).fontSize));
-                    }
-                    let baseFS = parseFloat(el.getAttribute('data-base-fs'));
-                    el.style.fontSize = (baseFS * scaleValue) + 'px';
-                });
-            }
-        } else if (type === 'freq') {
-            const freqBox = document.querySelector('.print-freq-box');
-            if (freqBox) {
-                if (!freqBox.hasAttribute('data-base-fs')) {
-                    freqBox.setAttribute('data-base-fs', parseFloat(window.getComputedStyle(freqBox).fontSize));
-                    freqBox.setAttribute('data-base-pad', parseFloat(window.getComputedStyle(freqBox).padding));
-                }
-                let baseFS = parseFloat(freqBox.getAttribute('data-base-fs'));
-                let basePad = parseFloat(freqBox.getAttribute('data-base-pad'));
-                
-                freqBox.style.fontSize = (baseFS * scaleValue) + 'px';
-                if (!isNaN(basePad)) freqBox.style.padding = (basePad * scaleValue) + 'px';
-            }
-        }
-        return; // Exit early, no SVG processing needed
-    }
-    // --- End Single-Sector Scaling ---
+    // Single-Sector now uses the unified SVG scaling engine below
 
     const wheel = document.getElementById('print-wheel-1');
     if (!wheel) return;
