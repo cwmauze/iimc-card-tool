@@ -34,9 +34,19 @@ def get_dof_zip_url():
     response.raise_for_status()
     
     soup = BeautifulSoup(response.text, 'html.parser')
+    valid_links = []
+    
     for link in soup.find_all('a', href=True):
-        if 'dof' in link['href'].lower() and link['href'].lower().endswith('.zip'):
-            return link['href'] if link['href'].startswith('http') else f"https://www.faa.gov{link['href']}"
+        href = link['href']
+        if 'dof' in href.lower() and href.lower().endswith('.zip'):
+            full_url = href if href.startswith('http') else f"https://www.faa.gov{href}"
+            valid_links.append(full_url)
+            
+    if valid_links:
+        # FAA filenames contain dates (e.g., DOF_260412.zip). 
+        # Sorting puts the newest date at the end of the list.
+        valid_links.sort()
+        return valid_links[-1]
             
     match = re.search(r'["\']([^"\']*dof[^"\']*\.zip)["\']', response.text, re.IGNORECASE)
     if match:
