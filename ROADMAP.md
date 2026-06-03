@@ -12,6 +12,7 @@ This roadmap outlines the planned future development for the IIMC Card Tool. Bec
 *Focus: Optimizing the tool for dispatch desks and pilot lounges to generate cards quickly before stepping to the aircraft.*
 - [ ] **Batch Generation:** Allow operators to input a list of common hospital helipads or bases to generate a multi-page PDF packet of IIMC cards at once.
 - [ ] **Direct EFB Integration:** Add options to "Send to ForeFlight" or "Send to Garmin Pilot" as a document payload, skipping the manual PDF save step.
+- [ ] **KML/KMZ Overlay Export:** Generate a `.kml` file of the IIMC sectors and MSAs that can be imported directly into ForeFlight or Garmin Pilot as a map overlay, rather than just a static PDF reference.
 - [ ] **Template Cloud Sync:** Allow operators to host a central `.json` layout template on their own servers that the tool can load automatically, ensuring all company pilots use the exact same layout.
 
 ## 📌 Phase 3: Codebase Modularization & Performance
