@@ -23,5 +23,4 @@ This roadmap outlines the planned future development for the IIMC Card Tool. Bec
 ## 📌 Phase 4: Feature Expansions
 *Focus: Adding highly-requested capabilities based on pilot and dispatch feedback.*
 - [ ] **European/Global Airspace Support:** Expand the database fetching scripts to pull obstacle and airspace data for international regions (currently FAA/US focused).
-- [ ] **Custom Obstacle Overrides:** Allow pilots or dispatchers to manually input temporary obstacles (e.g., temporary cranes) that are not yet published in the FAA DOF.
-- [ ] **Route-Based Corridor Generation:** Evolve from a simple radius to generating a safe altitude corridor along a planned flight path.
+- [ ] **Regional Area / MVA-Style Charts:** Evolve the tool to generate safe altitudes across a broader, gridded regional area (similar to an ATC Minimum Vectoring Altitude chart), rather than relying solely on a single centerpoint and radial sectors.
