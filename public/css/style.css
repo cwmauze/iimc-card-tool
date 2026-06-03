@@ -1,0 +1,110 @@
+:root {
+    --bg: #18191a;
+    --card: #242526;
+    --text: #e4e6eb;
+    --border: #3e4042;
+    --accent: #478df5;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+}
+
+/* Input Form Styling */
+.section-card {
+    background: var(--card);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    margin-bottom: 20px;
+}
+
+.section-card h2 { color: var(--accent); margin-top: 0; }
+
+.btn-primary {
+    background: var(--accent); color: white; border: none;
+    padding: 10px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; width: 100%;
+}
+
+/* The IIMC Card - Physical 5.5x5.5 Simulation */
+.iimc-card-container {
+    display: flex;
+    justify-content: center;
+    background: #333;
+    padding: 40px;
+    border-radius: 8px;
+}
+
+.iimc-card {
+    width: 5.5in;
+    height: 5.5in;
+    background: white;
+    color: black;
+    padding: 0.2in;
+    box-sizing: border-box;
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header & Meta Styling */
+.card-header { text-align: center; font-weight: bold; font-size: 14pt; border-bottom: 2px solid black; margin-bottom: 5px; }
+.meta-row { display: flex; justify-content: space-between; font-weight: bold; padding: 5px 0; }
+
+/* The MSA Box */
+.msa-box {
+    border: 3px solid black;
+    text-align: center;
+    margin: 10px 0;
+    padding: 10px;
+}
+.msa-box .label { font-size: 18pt; font-weight: bold; display: block; }
+.msa-box .value { font-size: 36pt; font-weight: 900; }
+.msa-box .unit { font-size: 18pt; font-weight: bold; display: block; }
+
+/* ATC Section */
+.atc-section {
+    border-left: 10px solid black;
+    background: #eeeeee;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+/* Procedures Section */
+.procedures { font-size: 8.5pt; line-height: 1.2; }
+.procedures p { margin: 0 0 5px 0; }
+.procedures ul { margin: 0; padding-left: 15px; }
+
+/* FIX FOR DARK BOXES: Editable Inputs */
+.editable {
+    background: transparent !important;
+    border: none !important;
+    color: black !important;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    text-align: inherit;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    width: auto;
+}
+
+/* Give a subtle hint that they are editable when browsing, but hide it for print */
+.editable:hover { background: #eef !important; border-bottom: 1px dashed #aaa !important; }
+
+@media print {
+    .no-print { display: none !important; }
+    body { background: white; padding: 0; }
+    .iimc-card-container { padding: 0; background: transparent; }
+    .iimc-card { margin: 0 auto; }
+}

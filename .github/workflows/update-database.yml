@@ -29,12 +29,12 @@ jobs:
         pip install requests beautifulsoup4
 
     - name: Run update script
-      run: python update_database.py
+      run: python scripts/update_database.py
 
     - name: Commit and push changes
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git add *.json
+        git add data/*.json
         # This line checks if any files actually changed before trying to commit
         git diff --quiet && git diff --staged --quiet || (git commit -m "Automated NASR database update" && git push)

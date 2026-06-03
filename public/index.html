@@ -683,25 +683,25 @@ let currentCalc = null; // Stores calculation state for the map preview
 document.addEventListener('DOMContentLoaded', async () => {
     // Fetch Metadata for cycle dates
     try {
-        const metaRes = await fetch('metadata.json?nocache=' + new Date().getTime());
+        const metaRes = await fetch('data/metadata.json?nocache=' + new Date().getTime());
         globalMeta = await metaRes.json();
     } catch (e) { console.warn("metadata.json not found."); }
 
     // Load Databases
-    fetch('airports.json?nocache=' + new Date().getTime()).then(r => r.json()).then(data => {
+    fetch('data/airports.json?nocache=' + new Date().getTime()).then(r => r.json()).then(data => {
         globalAirports = data;
         let datePart = (globalMeta && globalMeta.apt_date) ? globalMeta.apt_date : "Unknown";
         document.getElementById('apt-status').innerText = "Verified (Eff. " + datePart + " | " + Object.keys(data).length + " airports/heliports found)";
         document.getElementById('apt-dot').className = 'status-dot ready';
     });
-    fetch('obstacles.json?nocache=' + new Date().getTime()).then(r => r.json()).then(data => {
+    fetch('data/obstacles.json?nocache=' + new Date().getTime()).then(r => r.json()).then(data => {
         globalObstacles = data;
         let datePart = (globalMeta && globalMeta.dof_date) ? globalMeta.dof_date : "Unknown";
         document.getElementById('obs-status').innerText = "Verified (Eff. " + datePart + " | " + data.length + " obstacles)";
         document.getElementById('obs-dot').className = 'status-dot ready';
     });
   // Load USGS Terrain Grid
-    fetch('terrain.json')
+    fetch('data/terrain.json')
         .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
         .then(data => {
             globalTerrain = data;
