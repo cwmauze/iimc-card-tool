@@ -2,11 +2,11 @@
 
 This roadmap outlines the planned future development for the IIMC Card Tool. Because this is an open-source, aviation life-safety application, our goals prioritize mathematical transparency, extreme accuracy, and seamless pre-flight workflow integration.
 
-## 📌 Phase 1: Open-Source Foundation (Current)
+## 📌 Phase 1: Open-Source Foundation (Completed)
 *Focus: Establishing standard open-source protocols to encourage community trust and contributions.*
-- [ ] **Add an Open-Source License:** Add an MIT or Apache 2.0 license so others can legally use and fork the code.
-- [ ] **Create CONTRIBUTING.md:** Establish clear rules for how other developers or pilots can submit bug fixes, feature requests, or code contributions.
-- [ ] **GitHub Issue Templates:** Standardize how users report bugs (e.g., forcing them to provide the specific FAA ID, radius, and expected vs. actual MSA).
+- [x] **Add an Open-Source License:** Add an MIT or Apache 2.0 license so others can legally use and fork the code.
+- [x] **Create CONTRIBUTING.md:** Establish clear rules for how other developers or pilots can submit bug fixes, feature requests, or code contributions.
+- [x] **GitHub Issue Templates:** Standardize how users report bugs (e.g., forcing them to provide the specific FAA ID, radius, and expected vs. actual MSA).
 
 ## 📌 Phase 2: Pre-Flight Workflow & Export Enhancements
 *Focus: Optimizing the tool for dispatch desks and pilot lounges to generate cards quickly before stepping to the aircraft.*
