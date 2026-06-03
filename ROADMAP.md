@@ -25,3 +25,9 @@ This roadmap outlines the planned future development for the IIMC Card Tool. Bec
 *Focus: Adding highly-requested capabilities based on pilot and dispatch feedback.*
 - [ ] **European/Global Airspace Support:** Expand the database fetching scripts to pull obstacle and airspace data for international regions (currently FAA/US focused).
 - [ ] **Regional Area / MVA-Style Charts:** Evolve the tool to generate safe altitudes across a broader, gridded regional area (similar to an ATC Minimum Vectoring Altitude chart), rather than relying solely on a single centerpoint and radial sectors.
+
+## 📌 Phase 5: Automated Distribution (SaaS Migration)
+*Focus: Upgrading from a static Single Page App to a backend service for automated compliance and distribution.*
+- [ ] **User Subscriptions:** Allow operators to define a list of coordinates (e.g., all their hospital bases) and save them to a user profile.
+- [ ] **Automated Generation Engine:** Build a backend microservice (e.g., Firebase or AWS Lambda) that recalculates every saved card automatically whenever the FAA 56-day DOF cycle updates.
+- [ ] **Email & Push Delivery:** Automatically email a fresh, compliant PDF packet to operators every 56 days so they never have to manually generate cards to stay compliant with new obstacles.
